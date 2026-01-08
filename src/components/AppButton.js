@@ -12,15 +12,16 @@ export default function AppButton({ title, onPress }) {
 
 const styles = StyleSheet.create({
   btn: {
-    width: '90%',
+    width: '100%',
     backgroundColor: Colors.primary,
     height: 56,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
-    marginHorizontal:20,
+    //marginHorizontal:20,
     bottom:30,
+    left:20,
     position:'absolute'
   },
   text: {

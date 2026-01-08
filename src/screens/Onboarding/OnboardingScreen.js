@@ -27,15 +27,15 @@ const slides = [
     image: require('../../../assets/images/intro1.png'),
   },
   {
-    title: 'Join GUIO. Play & Win.',
-    description: 'Create or join matches and enjoy real-time card games.',
-    points: ['Find or create GUIOs', '2–4 player games', 'Instant winnings'],
+    title: 'One Wallet. Multiple Currencies.',
+    description: 'Deposit, play, and withdraw easily in your preferred currency.',
+    points: ['EUR / USD / FCFA wallet', 'Mobile Money & PayPal', 'Instant balance updates'],
     image: require('../../../assets/images/intro2.png'),
   },
   {
-    title: 'Win Instantly',
-    description: 'Fast winnings with instant wallet payouts.',
-    points: ['Quick settlements', 'Secure payments', 'Real rewards'],
+    title: 'Join GUIO. Play & Win.',
+    description: 'Create or join matches and enjoy  real-time card games.',
+    points: ['Find or create GUIOs', '2–4 player games', 'Instant winnings'],
     image: require('../../../assets/images/intro3.png'),
   },
 ];
@@ -115,9 +115,20 @@ export default function OnboardingScreen({ navigation }) {
             onPress={onNext}
           >
             {index === slides.length - 1 ? (
-              <Text style={styles.getStartedText}>Get Started</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center',padding:8 }}>
+                <Text style={styles.getStartedText}>Get Started</Text>
+                <Image
+                  tintColor={'#000'}
+                  source={require('../../../assets/images/arrow.png')}
+                style={{ width: 24, height: 24,marginLeft:10 }}
+              />
+              </View>
             ) : (
-              <Ionicons name="arrow-forward" size={22} color="#000" />
+              <Image
+                tintColor={'#000'}
+                source={require('../../../assets/images/arrow.png')}
+                style={{ width: 22, height: 22 }}
+              />
             )}
           </TouchableOpacity>
         </View>

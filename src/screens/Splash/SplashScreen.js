@@ -9,14 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SplashScreen({ navigation }) {
-  //   useEffect(() => {
-  //   if (Platform.OS === 'android') {
-  //     StatusBar.setBackgroundColor('transparent');
-  //     StatusBar.setTranslucent(true);
-  //     StatusBar.setHidden(false);
-  //   }
-  //   StatusBar.setBarStyle('dark-content');
-  // }, []);
+ 
   useEffect(() => {
     // Hide status bar
 if (Platform.OS === 'android') {
