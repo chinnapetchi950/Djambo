@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     //marginHorizontal:20,
-    bottom:30,
-    left:20,
-    position:'absolute'
+    //bottom:30,
+    //left:20,
+    //position:'absolute'
   },
   text: {
     color: '#fff',

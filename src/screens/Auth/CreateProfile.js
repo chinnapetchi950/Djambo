@@ -7,11 +7,19 @@ import {
   Image,
   FlatList,
   ImageBackground,
+  Modal,
+  Alert,
+  Platform
 } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AppButton from '../../components/AppButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {
+  request,
+  PERMISSIONS,
+  RESULTS,
+} from 'react-native-permissions';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const avatars = [
   require('../../../assets/images/Cartoon.png'),
   require('../../../assets/images/Cartoon3.png'),
@@ -30,20 +38,85 @@ const avatars = [
   require('../../../assets/images/Cartoon4.png'),
 ];
 
-export default function ProfileSetupScreen({ navigation }) {
+export default function createProfile({ navigation }) {
   const [selectedAvatar, setSelectedAvatar] = useState(null);
+const [profileImage, setProfileImage] = useState(null);
+const [pickerVisible, setPickerVisible] = useState(false);
+const requestCameraPermission = async () => {
+  if (Platform.OS !== 'android') return true;
 
-  const renderAvatar = ({ item, index }) => (
-    <TouchableOpacity
-      style={[
-        styles.avatarWrapper,
-        selectedAvatar === index && styles.avatarSelected,
-      ]}
-      onPress={() => setSelectedAvatar(index)}
-    >
-      <Image source={item} style={styles.avatar} />
-    </TouchableOpacity>
-  );
+  const result = await request(PERMISSIONS.ANDROID.CAMERA);
+  return result === RESULTS.GRANTED;
+};
+
+const requestGalleryPermission = async () => {
+  if (Platform.OS !== 'android') return true;
+
+  const permission =
+    Platform.Version >= 33
+      ? PERMISSIONS.ANDROID.READ_MEDIA_IMAGES
+      : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+
+  const result = await request(permission);
+  return result === RESULTS.GRANTED;
+};
+
+const pickFromGallery = async () => {
+  setPickerVisible(false);
+
+  const granted = await requestGalleryPermission();
+  if (!granted) {
+    Alert.alert('Permission Required', 'Gallery permission is needed.');
+    return;
+  }
+
+  const res = await launchImageLibrary({
+    mediaType: 'photo',
+    quality: 0.8,
+  });
+
+  if (!res.didCancel && res.assets?.length) {
+    setProfileImage(res.assets[0].uri);
+    setSelectedAvatar(null);
+  }
+};
+
+const pickFromCamera = async () => {
+  setPickerVisible(false);
+
+  const granted = await requestCameraPermission();
+  if (!granted) {
+    Alert.alert('Permission Required', 'Camera permission is needed.');
+    return;
+  }
+
+  const res = await launchCamera({
+    mediaType: 'photo',
+    cameraType: 'front',
+    quality: 0.8,
+  });
+
+  if (!res.didCancel && res.assets?.length) {
+    setProfileImage(res.assets[0].uri);
+    setSelectedAvatar(null);
+  }
+};
+
+ const renderAvatar = ({ item, index }) => (
+  <TouchableOpacity
+    style={[
+      styles.avatarWrapper,
+      selectedAvatar === index && styles.avatarSelected,
+    ]}
+    onPress={() => {
+      setSelectedAvatar(index);
+      setProfileImage(null);
+    }}
+  >
+    <Image source={item} style={styles.avatar} />
+  </TouchableOpacity>
+);
+
 
   return (
     <ScreenWrapper>
@@ -60,10 +133,19 @@ export default function ProfileSetupScreen({ navigation }) {
         </View>
 
         {/* Upload from Gallery */}
-        <TouchableOpacity style={styles.uploadBox}>
-          <Ionicons name="person-circle-outline" size={26} color="#ff3b3b" />
-          <Text style={styles.uploadText}>Upload From Gallery</Text>
-        </TouchableOpacity>
+        <TouchableOpacity
+  style={styles.uploadBox}
+  onPress={() => setPickerVisible(true)}
+>
+  {profileImage ? (
+    <Image source={{ uri: profileImage }} style={styles.previewImage} />
+  ) : (
+    <>
+      <Ionicons name="person-circle-outline" size={26} color="#ff3b3b" />
+      <Text style={styles.uploadText}>Upload Photo</Text>
+    </>
+  )}
+</TouchableOpacity>
 
         {/* OR */}
         <Text style={styles.orText}>Or</Text>
@@ -84,9 +166,44 @@ export default function ProfileSetupScreen({ navigation }) {
         <AppButton
           title="Next"
           style={{ marginBottom: 20 }}
-          onPress={() => {}}
+          onPress={() => {navigation.navigate('CreateAccount')}}
         />
       </ImageBackground>
+      <Modal
+  visible={pickerVisible}
+  transparent
+  animationType="fade"
+  onRequestClose={() => setPickerVisible(false)}
+>
+  <TouchableOpacity
+    style={styles.pickerOverlay}
+    activeOpacity={1}
+    onPress={() => setPickerVisible(false)}
+  >
+    <View style={styles.pickerCard}>
+      <TouchableOpacity style={styles.pickerItem} onPress={pickFromCamera}>
+        <Ionicons name="camera-outline" size={22} color="#fff" />
+        <Text style={styles.pickerText}>Take Photo</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.pickerItem} onPress={pickFromGallery}>
+        <Ionicons name="image-outline" size={22} color="#fff" />
+        <Text style={styles.pickerText}>Choose from Gallery</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.pickerItem, { justifyContent: 'center' }]}
+        onPress={() => {
+          setPickerVisible(false);
+          navigation.navigate('CreateAccount');
+        }}
+      >
+        <Text style={[styles.pickerText, { color: '#ff3b3b' }]}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
+</Modal>
+
     </ScreenWrapper>
   );
 }
@@ -155,4 +272,35 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     padding: 3,
   },
+  previewImage: {
+  width: 60,
+  height: 60,
+  borderRadius: 30,
+},
+
+pickerOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0,0,0,0.6)',
+  justifyContent: 'flex-end',
+},
+
+pickerCard: {
+  backgroundColor: '#060605',
+  padding: 20,
+  borderTopLeftRadius: 24,
+  borderTopRightRadius: 24,
+},
+
+pickerItem: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingVertical: 14,
+},
+
+pickerText: {
+  color: '#fff',
+  fontSize: 16,
+  marginLeft: 12,
+},
+
 });

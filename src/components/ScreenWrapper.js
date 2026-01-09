@@ -1,43 +1,24 @@
-import React,{useEffect} from 'react';
-import {  StyleSheet,StatusBar } from 'react-native';
-import { Colors } from '../theme/colors';
+import React from 'react';
+import { StyleSheet, StatusBar, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from '../theme/colors';
 
-export default function ScreenWrapper({ children }) {
-  useEffect(() => {
-      // Hide status bar
-  if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
-        StatusBar.setHidden(false);
-      }
-      StatusBar.setBarStyle('dark-content');
-      // Navigate after delay (optional)
-      // setTimeout(() => navigation.replace('Auth'), 2000);
-  
-      return () => {
-        // Restore status bar when leaving splash
-        StatusBar.setHidden(false, 'fade');
-      };
-    }, []);
+export default function ScreenWrapper({ children, style }) {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, style]} edges={['top', 'bottom', 'left', 'right']}>
       <StatusBar
-        translucent
-        backgroundColor="#000"
+        translucent={Platform.OS === 'android'}
+        backgroundColor="transparent"
         barStyle="light-content"
-        hidden={false}
       />
       {children}
     </SafeAreaView>
   );
 }
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: Colors.background,
+    backgroundColor: Colors.background,
   },
 });

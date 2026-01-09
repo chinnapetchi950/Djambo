@@ -11,6 +11,7 @@ import {
 import ScreenWrapper from '../../components/ScreenWrapper';
 import { ImageBackground } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Typography } from '../../theme/typography';
 
 const { width, height } = Dimensions.get('window');
 
@@ -46,7 +47,8 @@ export default function OnboardingScreen({ navigation }) {
 
   const onNext = () => {
     if (index === slides.length - 1) {
-      navigation.replace('Login');
+      navigation.navigate('Login'); 
+      // navigation.replace('createProfile');
     } else {
       flatListRef.current.scrollToIndex({ index: index + 1 });
     }
@@ -150,7 +152,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: '700',
-    marginBottom: 40,
+    marginBottom: 40 ,
+    fontFamily: Typography.fontFamily.bold,
   },
 
   image: {
@@ -164,6 +167,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     marginTop: 30,
+    fontFamily: Typography.fontFamily.medium,
   },
 
   pointsContainer: { marginTop: 15 },
@@ -172,6 +176,7 @@ const styles = StyleSheet.create({
     color: '#ddd',
     fontSize: 15,
     marginTop: 6,
+    fontFamily: Typography.fontFamily.regular,
   },
 
   bottomRow: {
