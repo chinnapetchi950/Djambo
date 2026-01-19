@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import {
   View,
   Text,
@@ -14,6 +14,8 @@ import Feather from "react-native-vector-icons/Feather";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import { Typography } from "../../theme/typography";
+import LogoutModal from "../../components/LogoutModal";
+import { CommonActions } from '@react-navigation/native';
 
 
 const MenuItem = ({
@@ -55,8 +57,25 @@ const MenuItem = ({
   );
 };
 
-
 const Profile = ({navigation}) => {
+  const [showLogout, setShowLogout] = useState(false);
+const handleLogout=()=>{
+  setShowLogout(false),
+ navigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [
+        {
+          name: 'Auth',
+          state: {
+            routes: [{ name: 'Login' }],
+          },
+        },
+      ],
+    })
+  );
+}
+
   return (
     <ScreenWrapper>
 
@@ -125,6 +144,7 @@ const Profile = ({navigation}) => {
              onPress={()=>navigation.navigate('Legal')}
           />
           <MenuItem
+          onPress={()=>setShowLogout(true)}
            image={require('../../../assets/images/logout.png')}
             title="Logout"
             danger
@@ -134,6 +154,12 @@ const Profile = ({navigation}) => {
 
         <Text style={styles.version}>Version 1.2.3</Text>
       </ScrollView>
+      
+<LogoutModal
+  visible={showLogout}
+  onCancel={() => setShowLogout(false)}
+  onConfirm={handleLogout}
+/>
     </ImageBackground>
         </ScreenWrapper>
 

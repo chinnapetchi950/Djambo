@@ -144,22 +144,22 @@ const styles = StyleSheet.create({
 
   slide: {
     width,
-    paddingHorizontal: 24,
+    paddingHorizontal: 15,
     paddingTop: 70,
   },
 
   title: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: '700',
-    marginBottom: 40 ,
+    marginBottom: 60 ,
     fontFamily: Typography.fontFamily.bold,
   },
 
   image: {
-    width: width - 48,
-    height: height * 0.35,
-    resizeMode: 'contain',
+    width: width - 45,
+    height: height * 0.32,
+    resizeMode:'contain',
     alignSelf: 'center',
   },
 
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   point: {
     color: '#ddd',
     fontSize: 15,
-    marginTop: 6,
+    //marginTop: 6,
     fontFamily: Typography.fontFamily.regular,
   },
 

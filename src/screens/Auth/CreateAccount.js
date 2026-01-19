@@ -51,7 +51,7 @@ export default function CreateAccount({ navigation }) {
       >
         {/* HEADER */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.inputBox} onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back" size={26} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Create Account</Text>
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 15,
   },
   headerTitle: {
     color: '#fff',
@@ -245,5 +245,13 @@ const styles = StyleSheet.create({
   modalText: {
     color: '#fff',
     fontSize: 16,
+  },
+  inputBox: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    height: 54,
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

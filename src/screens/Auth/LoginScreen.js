@@ -648,23 +648,26 @@ export default function LoginScreen({navigation}) {
             {/* Login Button */}
             <AppButton
               title="Log In"
-              onPress={()=>{navigation.navigate('Main')}}
+              onPress={()=>{}}
+              // onPress={()=>{navigation.navigate('Main')}}
               style={{ marginTop: 30, alignItems: 'center' }}
             />
 
             {/* Footer */}
             <View style={styles.footer}>
-              <Text style={styles.footerText}>
-                Don’t have an account?{' '}
-                <TouchableOpacity onPress={createOne}>
-                  <Text style={styles.link}>Create one</Text>
-                </TouchableOpacity>
-              </Text>
+              <View style={styles.footerRow}>
+  <Text style={styles.footerText}>Don’t have an account?</Text>
 
-              <Text style={styles.footerText}>
-                <Text style={styles.link}>Terms & Condition</Text> |{' '}
-                <Text style={styles.link}>Privacy Policy</Text>
+  <TouchableOpacity onPress={createOne}>
+    <Text style={styles.link}> Create one</Text>
+  </TouchableOpacity>
+</View>
+<View style={[styles.footerRow,{marginTop:-2}]}>
+              <Text style={styles.footerText1}>
+                <Text style={styles.link1}>Terms & Condition</Text> |{' '}
+                <Text style={styles.link1}>Privacy Policy</Text>
               </Text>
+              </View>
             </View>
           </ImageBackground>
         </View>
@@ -768,9 +771,9 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   title: { color: '#fff', fontSize: 28, fontWeight: '700', marginTop: 10, fontFamily: Typography.fontFamily.bold },
-  subTitle: { color: '#9c9c9c', marginBottom: 20, fontFamily: Typography.fontFamily.regular },
+  subTitle: { color: '#9c9c9c', marginBottom: 35, fontFamily: Typography.fontFamily.regular ,marginTop:8},
 
-  switchContainer: { flexDirection: 'row', backgroundColor: '#1b1b1b', borderRadius: 30, marginBottom: 20, marginTop: 15 },
+  switchContainer: { flexDirection: 'row', backgroundColor: '#1b1b1b', borderRadius: 30, marginBottom: 30, marginTop: 15 },
   switchBtn: { flex: 1, paddingVertical: 12, alignItems: 'center', borderRadius: 30 },
   switchActive: { backgroundColor: '#fff' },
   switchTextActive: { color: '#000', fontWeight: '700', fontFamily: Typography.fontFamily.bold },
@@ -794,10 +797,28 @@ const styles = StyleSheet.create({
 
   hiddenInput: { position: 'absolute', opacity: 0 },
 
-  footer: { alignItems: 'center', marginTop: 30 },
-  footerText: { color: '#9c9c9c', marginTop: 8, fontFamily: Typography.fontFamily.medium },
-  link: { color: '#fff', textDecorationLine: 'underline' },
+  footerRow: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop:10,
+  marginBottom: 8,
+},
 
+footerText: {
+  color: '#9c9c9c',
+  fontFamily: Typography.fontFamily.medium,
+},
+
+link: {
+  color: '#fff',
+  textDecorationLine: 'underline',
+  fontFamily: Typography.fontFamily.medium,
+},
+
+  link: { color: '#fff', textDecorationLine: 'underline'},
+ footerText1: { alignItems:'center',justifyContent:'center', flexDirection:'row', color: '#9c9c9c', marginBottom: 8, fontFamily: Typography.fontFamily.medium },
+ link1: { color: '#fff', textDecorationLine: 'underline'},
   modalOverlay: { flex: 1, justifyContent: 'flex-end', alignItems: 'center' },
   modalCard: { width: '100%', backgroundColor: '#060605', paddingVertical: 30, paddingHorizontal: 24, alignItems: 'center', borderTopRightRadius: 28, borderTopLeftRadius: 28, shadowColor: '#000', shadowOffset: { width: 0, height: 12 }, shadowOpacity: 0.35, shadowRadius: 24, elevation: 35 },
   modalTitle: { color: '#fff', fontSize: 22, fontWeight: '700', marginBottom: 8, textAlign: 'center' },

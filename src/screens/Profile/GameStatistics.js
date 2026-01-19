@@ -22,19 +22,22 @@ const STAT_CARD_WIDTH = (SCREEN_WIDTH - (GAP * 3)) / 2;
 const KORA_CARD_WIDTH = (SCREEN_WIDTH - (GAP * 4)) / 3;
 const StatCard = ({ icon, value, label }) => {
   return (
-    <ImageBackground
-      source={require("../../../assets/images/cardbg_game.png")}
-      style={styles.statCard}
-      imageStyle={styles.statCardInner}
-    >
-      <View style={styles.statRow}>
-        <Image source={icon} style={styles.statIcon} />
-        <Text style={styles.statValue}>{value}</Text>
-      </View>
-      <Text style={styles.statLabel}>{label}</Text>
-    </ImageBackground>
+    <View style={styles.statCardWrapper}>
+      <ImageBackground
+        source={require("../../../assets/images/cardbg_game.png")}
+        style={styles.statCard}
+        imageStyle={{ borderRadius: 18 }}
+      >
+        <View style={styles.statRow}>
+          <Image source={icon} style={styles.statIcon} />
+          <Text style={styles.statValue}>{value}</Text>
+        </View>
+        <Text style={styles.statLabel}>{label}</Text>
+      </ImageBackground>
+    </View>
   );
 };
+
 export default function GameStatistics({ navigation }) {
   return (
     <ScreenWrapper>
@@ -170,18 +173,23 @@ const styles = StyleSheet.create({
   },
 
   /* STAT GRID */
-  grid: {
+ grid: {
   flexDirection: "row",
   flexWrap: "wrap",
-  marginHorizontal: -8, // gutter fix
+  justifyContent: "space-between",
+},
+
+statCardWrapper: {
+  width: "48%",           // 🔥 FIXED (not flexBasis)
+  marginBottom: 14,
 },
 
 statCard: {
-  flexBasis: "45%",      // 🔥 KEY
-  paddingHorizontal: 8,  // spacing between columns
-  marginBottom: 14,
   height: 96,
+  padding: 14,
+  justifyContent: "space-between",
 },
+
 
 statCardInner: {
   flex: 1,

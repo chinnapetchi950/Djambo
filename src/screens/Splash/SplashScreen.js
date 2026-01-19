@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   Platform,
+  Image
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Typography } from '../../theme/typography';
@@ -18,7 +19,7 @@ if (Platform.OS === 'android') {
     }
     StatusBar.setBarStyle('dark-content');
     // Navigate after delay (optional)
-    setTimeout(() => navigation.replace('Auth'), 2000);
+    setTimeout(() => navigation.replace('Auth'), 3000);
 
     return () => {
       // Restore status bar when leaving splash
@@ -39,7 +40,8 @@ if (Platform.OS === 'android') {
       style={styles.container}
       resizeMode="cover"
     >
-      <Text style={styles.title}>DJAMBO</Text>
+      <Image style={{width:'62%',height:46}} source={require('../../../assets/images/splash_logo.png')}/>
+      {/* <Text style={styles.title}>DJAMBO</Text> */}
     </ImageBackground>
     </SafeAreaView>
    

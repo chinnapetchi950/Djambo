@@ -73,7 +73,7 @@ export default function VerifyOTP({ navigation, route }) {
 
     setTimeout(() => {
       setSuccessVisible(false);
-      navigation.replace('Main');
+      navigation.replace('Login');
     }, 1800);
   };
 
@@ -88,7 +88,7 @@ export default function VerifyOTP({ navigation, route }) {
       <View style={styles.container}>
         {/* HEADER */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity  style={styles.inputBox}onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back" size={26} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Verify your Account</Text>
@@ -182,7 +182,14 @@ const styles = StyleSheet.create({
     height: 70,
     marginBottom: 18,
   },
-
+inputBox: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    height: 54,
+    flexDirection: "row",
+    alignItems: "center",
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -206,6 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 24,
+    marginHorizontal:15
   },
   otpBox: {
     width: 48,

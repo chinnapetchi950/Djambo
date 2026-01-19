@@ -21,21 +21,23 @@ import {
 } from 'react-native-permissions';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 const avatars = [
-  require('../../../assets/images/Cartoon.png'),
+  require('../../../assets/images/Cartoon1.png'),
+  require('../../../assets/images/Cartoon2.png'),
   require('../../../assets/images/Cartoon3.png'),
   require('../../../assets/images/Cartoon4.png'),
-  require('../../../assets/images/Cartoon3.png'),
-  require('../../../assets/images/Cartoon4.png'),
-  require('../../../assets/images/Cartoon3.png'),
-  require('../../../assets/images/Cartoon4.png'),
-  require('../../../assets/images/Cartoon3.png'),
-  require('../../../assets/images/Cartoon4.png'),
-  require('../../../assets/images/Cartoon3.png'),
-  require('../../../assets/images/Cartoon4.png'),
-  require('../../../assets/images/Cartoon3.png'),
-  require('../../../assets/images/Cartoon4.png'),
-  require('../../../assets/images/Cartoon3.png'),
-  require('../../../assets/images/Cartoon4.png'),
+  require('../../../assets/images/Cartoon5.png'),
+  require('../../../assets/images/Cartoon6.png'),
+  require('../../../assets/images/Cartoon7.png'),
+  require('../../../assets/images/Cartoon8.png'),
+  require('../../../assets/images/Cartoon9.png'),
+  require('../../../assets/images/Cartoon10.png'),
+  require('../../../assets/images/Cartoon11.png'),
+  require('../../../assets/images/Cartoon12.png'),
+  require('../../../assets/images/Cartoon13.png'),
+  require('../../../assets/images/Cartoon14.png'),
+  require('../../../assets/images/Cartoon15.png'),
+    require('../../../assets/images/Cartoon16.png'),
+
 ];
 
 export default function createProfile({ navigation }) {
@@ -103,6 +105,7 @@ const pickFromCamera = async () => {
 };
 
  const renderAvatar = ({ item, index }) => (
+  
   <TouchableOpacity
     style={[
       styles.avatarWrapper,
@@ -126,7 +129,7 @@ const pickFromCamera = async () => {
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.inputBox} onPress={() => navigation.goBack()}>
             <Ionicons name="chevron-back" size={26} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Profile Setup</Text>
@@ -135,14 +138,14 @@ const pickFromCamera = async () => {
         {/* Upload from Gallery */}
         <TouchableOpacity
   style={styles.uploadBox}
-  onPress={() => setPickerVisible(true)}
+  onPress={()=>pickFromGallery()}
 >
   {profileImage ? (
     <Image source={{ uri: profileImage }} style={styles.previewImage} />
   ) : (
     <>
       <Ionicons name="person-circle-outline" size={26} color="#ff3b3b" />
-      <Text style={styles.uploadText}>Upload Photo</Text>
+      <Text style={styles.uploadText}>Upload From Gallery</Text>
     </>
   )}
 </TouchableOpacity>
@@ -161,13 +164,13 @@ const pickFromCamera = async () => {
           contentContainerStyle={styles.avatarGrid}
           showsVerticalScrollIndicator={false}
         />
-
-        {/* Next Button */}
-        <AppButton
+ <AppButton
           title="Next"
-          style={{ marginBottom: 20 }}
+          btnstyle={{ marginBottom: '32%'}}
           onPress={() => {navigation.navigate('CreateAccount')}}
         />
+        {/* Next Button */}
+       
       </ImageBackground>
       <Modal
   visible={pickerVisible}
@@ -180,7 +183,7 @@ const pickFromCamera = async () => {
     activeOpacity={1}
     onPress={() => setPickerVisible(false)}
   >
-    <View style={styles.pickerCard}>
+    {/* <View style={styles.pickerCard}>
       <TouchableOpacity style={styles.pickerItem} onPress={pickFromCamera}>
         <Ionicons name="camera-outline" size={22} color="#fff" />
         <Text style={styles.pickerText}>Take Photo</Text>
@@ -200,7 +203,7 @@ const pickFromCamera = async () => {
       >
         <Text style={[styles.pickerText, { color: '#ff3b3b' }]}>Cancel</Text>
       </TouchableOpacity>
-    </View>
+    </View> */}
   </TouchableOpacity>
 </Modal>
 
@@ -214,12 +217,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   headerTitle: {
     color: '#fff',
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: '700',
     marginLeft: 10,
   },
 
@@ -236,12 +239,13 @@ const styles = StyleSheet.create({
   uploadText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight:'500',
     marginLeft: 10,
   },
 
   orText: {
     textAlign: 'center',
-    color: '#9c9c9c',
+    color: '#fff',
     marginVertical: 12,
   },
 
@@ -302,5 +306,12 @@ pickerText: {
   fontSize: 16,
   marginLeft: 12,
 },
-
+inputBox: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    height: 54,
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
