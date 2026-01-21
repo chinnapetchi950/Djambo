@@ -33,12 +33,12 @@ const GameSwiper = ({ data }) => {
 
       {/* Pagination dots */}
       <View style={styles.pagination}>
-        {data.map((_, index) => (
+        {data?.map((_, index) => (
           <View
             key={index}
             style={[
               styles.dot,
-              { opacity: index === activeIndex ? 1 : 0.3, width: index === activeIndex ? 12 : 8 },
+              { opacity: index === activeIndex ? 1 : 0.3, width: index === activeIndex ? 12 : 8 }
             ]}
           />
         ))}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     color: '#E11D2E',
   },
   gameTitle: { color: '#fff', fontSize: 22, fontWeight: '700', marginTop: 60,width: '50%' },
-  gameSub: { color: '#ccc', marginTop: 2 },
+  gameSub: { color: '#FFF', marginTop: 2 },
   gameMin: { color: '#fff', marginTop: 2 },
   pagination: { flexDirection: 'row', marginTop: 10 },
   dot: {

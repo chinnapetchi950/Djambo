@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView,TextInput, TouchableOpacity,ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AppButton from '../../components/AppButton';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import { Typography } from '../../theme/typography';
 import OtpModal from '../../components/Otpmodal';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 const PasswordInput = ({ placeholder, value, onChangeText }) => {
   const [secure, setSecure] = useState(true);
 
   return (
-    <View style={styles.passcontainer}>
+    <View style={styles.passContainer}>
       <TextInput
         placeholder={placeholder}
         placeholderTextColor="#777"
@@ -19,11 +21,12 @@ const PasswordInput = ({ placeholder, value, onChangeText }) => {
         style={styles.input}
       />
       <TouchableOpacity onPress={() => setSecure(!secure)}>
-        <Ionicons name={secure ? 'eye-off' : 'eye'} size={20} color="#999" />
+        <Ionicons name={secure ? 'eye-off' : 'eye'} size={wp("5%")} color="#999" />
       </TouchableOpacity>
     </View>
   );
 };
+
 export default function ChangePassword({ navigation }) {
   const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
@@ -32,46 +35,49 @@ export default function ChangePassword({ navigation }) {
 
   return (
     <ScreenWrapper>
-          <ImageBackground
-            source={require("../../../assets/images/profile_bg.png")}
-            style={styles.container}
-          >
-    <ScrollView contentContainerStyle={styles.container}>
-      <Header title="Change Password" onBack={() => navigation.goBack()} />
+      <ImageBackground
+        source={require("../../../assets/images/profile_bg.png")}
+        style={styles.container}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Header title="Change Password" onBack={() => navigation.goBack()} />
 
-      <Label text="Current Password" />
-      <PasswordInput value={current} onChangeText={setCurrent} />
+          <Label text="Current Password" />
+          <PasswordInput value={current} onChangeText={setCurrent} placeholder="Enter current password" />
 
-      <Label text="New Password" />
-      <PasswordInput value={next} onChangeText={setNext} />
+          <Label text="New Password" />
+          <PasswordInput value={next} onChangeText={setNext} placeholder="Enter new password" />
 
-      <Label text="Confirm New Password" />
-      <PasswordInput value={confirm} onChangeText={setConfirm} />
+          <Label text="Confirm New Password" />
+          <PasswordInput value={confirm} onChangeText={setConfirm} placeholder="Confirm new password" />
 
-      <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>Password Requirements:</Text>
-        <Text style={styles.info}>• At least 8 characters long</Text>
-        <Text style={styles.info}>• Contains Uppercase & lowercase letters</Text>
-        <Text style={styles.info}>• Contains at least One number</Text>
-        <Text style={styles.info}>• Contains at least one special character (!@#$%^&*)</Text>
-        <Text style={[styles.info, { marginTop: 6 }]}>
-          Re-authentication required before Changed
-        </Text>
-      </View>
+          <View style={styles.infoBox}>
+            <Text style={styles.infoTitle}>Password Requirements:</Text>
+            <Text style={styles.info}>• At least 8 characters long</Text>
+            <Text style={styles.info}>• Contains Uppercase & lowercase letters</Text>
+            <Text style={styles.info}>• Contains at least One number</Text>
+            <Text style={styles.info}>• Contains at least one special character (!@#$%^&*)</Text>
+            <Text style={[styles.info, { marginTop: hp("0.5%") }]}>
+              Re-authentication required before Changed
+            </Text>
+          </View>
 
-      <AppButton btnstyle={{
-    marginTop:'45%',
-   }} title="Continue" onPress={() => {setShowOtp(true)}} />
-   <OtpModal
-        visible={showOtp}
-        onClose={() => setShowOtp(false)}
-        onVerify={() => {
-          setShowOtp(false);
-          // CALL CHANGE PASSWORD API HERE
-        }}
-      />
-    </ScrollView>
-    </ImageBackground>
+          <AppButton
+            btnstyle={{ marginTop: hp("19%") }}
+            title="Continue"
+            onPress={() => setShowOtp(true)}
+          />
+
+          <OtpModal
+            visible={showOtp}
+            onClose={() => setShowOtp(false)}
+            onVerify={() => {
+              setShowOtp(false);
+              // CALL CHANGE PASSWORD API HERE
+            }}
+          />
+        </ScrollView>
+      </ImageBackground>
     </ScreenWrapper>
   );
 }
@@ -80,7 +86,7 @@ export default function ChangePassword({ navigation }) {
 const Header = ({ title, onBack }) => (
   <View style={styles.header}>
     <TouchableOpacity style={styles.inputBox} onPress={onBack}>
-      <Ionicons name="chevron-back" size={24} color="#fff" />
+      <Ionicons name="chevron-back" size={wp("6%")} color="#fff" />
     </TouchableOpacity>
     <Text style={styles.headerText}>{title}</Text>
   </View>
@@ -91,63 +97,68 @@ const Label = ({ text }) => <Text style={styles.label}>{text}</Text>;
 /* ---------- Styles ---------- */
 const styles = StyleSheet.create({
   container: {
-    padding: 8,
-    paddingBottom: 40,
-  }, 
-  passcontainer: {
+    flex: 1,
+  },
+  scrollContainer: {
+    paddingHorizontal: wp("4%"),
+    paddingTop: hp("2%"),
+    paddingBottom: hp("10%"),
+  },
+  passContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#1c1c1c',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    height: 56,
-    marginBottom: 16,
+    borderRadius: wp("3%"),
+    paddingHorizontal: wp("4%"),
+    height: hp("7%"),
+    marginBottom: hp("2%"),
   },
   input: {
     flex: 1,
     color: '#fff',
-    fontSize: 15,
+    fontSize: wp("4%"),
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: hp("3%"),
   },
   headerText: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: wp("5%"),
     fontWeight: '700',
-    fontFamily:Typography.fontFamily.semibold,
-    marginLeft: 12,
+    fontFamily: Typography.fontFamily.semibold,
+    marginLeft: wp("3%"),
   },
   label: {
     color: '#fff',
-    marginBottom: 8,
-    fontSize: 14,
+    marginBottom: hp("0.5%"),
+    fontSize: wp("3.8%"),
   },
   infoBox: {
     backgroundColor: '#ffecec',
-    borderRadius: 14,
-    padding: 16,
-    marginTop: 8,
+    borderRadius: wp("3%"),
+    padding: wp("4%"),
+    marginTop: hp("1%"),
   },
   infoTitle: {
     color: '#ff2d2d',
     fontWeight: '700',
-    marginBottom: 6,
-    fontFamily:Typography.fontFamily.medium
+    marginBottom: hp("0.5%"),
+    fontFamily: Typography.fontFamily.medium,
+    fontSize: wp("4%"),
   },
   info: {
     color: '#000',
-    fontSize: 14,
-        fontFamily:Typography.fontFamily.medium
-
+    fontSize: wp("3.5%"),
+    fontFamily: Typography.fontFamily.medium,
+    lineHeight: hp("2.5%"),
   },
-    inputBox: {
+  inputBox: {
     backgroundColor: "rgba(255,255,255,0.08)",
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    height: 54,
+    borderRadius: wp("2%"),
+    paddingHorizontal: wp("3%"),
+    height: hp("6.5%"),
     flexDirection: "row",
     alignItems: "center",
   },

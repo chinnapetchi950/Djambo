@@ -14,38 +14,38 @@ export default function Wallet({ navigation }) {
   return (
     <ScreenWrapper>
       
-      <ScrollView contentContainerStyle={styles.container}>
+      {/* <ScrollView contentContainerStyle={styles.container}>
         {/* HEADER */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.headerTitle}>Wallet Details</Text>
           <TouchableOpacity>
             <Ionicons name="notifications" size={22} color="#FFD400" />
             <View style={styles.badge} />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* BALANCE CARD */}
-        <View style={styles.balanceCard}>
+        {/* <View style={styles.balanceCard}>
           <BalanceItem value="€127.50" label="EUR" />
           <Divider />
           <BalanceItem value="$85.20" label="USD" />
           <Divider />
           <BalanceItem value="78,450" label="FCFA" />
-        </View>
+        </View> */}
 
-        <Text style={styles.totalText}>
+        {/* <Text style={styles.totalText}>
           Total (EUR equivalent): <Text style={styles.totalValue}>€247.83</Text>
-        </Text>
+        </Text> */}
 
         {/* ACTION BUTTONS */}
-        <View style={styles.actionRow}>
+        {/* <View style={styles.actionRow}>
           <ActionButton icon="download-outline" label="Deposit" />
           <ActionButton icon="arrow-up-outline" label="Withdrawal" />
           <ActionButton icon="swap-horizontal-outline" label="Convert Currency" />
-        </View>
+        </View> */}
 
         {/* ACTIVE GAME BALANCE */}
-        <Text style={styles.sectionTitle}>Active Game Balance</Text>
+        {/* <Text style={styles.sectionTitle}>Active Game Balance</Text>
 
         <View style={styles.gameBalanceCard}>
           <InfoRow label="Visible Balance" value="10 FCFA" />
@@ -59,10 +59,10 @@ export default function Wallet({ navigation }) {
           <TouchableOpacity style={styles.refillBtn}>
             <Text style={styles.refillText}>Refill Balance</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* TRANSACTIONS */}
-        <View style={styles.transactionHeader}>
+        {/* <View style={styles.transactionHeader}>
           <Text style={styles.sectionTitle}>Transactions</Text>
           <TouchableOpacity>
             <Text style={styles.viewAll}>View All</Text>
@@ -72,7 +72,7 @@ export default function Wallet({ navigation }) {
         <TransactionItem type="Deposit" amount="+50.00 FCFA" />
         <TransactionItem type="Win" amount="+10.00 FCFA" />
         <TransactionItem type="Win" amount="+10.00 FCFA" />
-      </ScrollView>
+      </ScrollView> */} 
     </ScreenWrapper>
   );
 }

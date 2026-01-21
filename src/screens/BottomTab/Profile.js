@@ -17,6 +17,10 @@ import { Typography } from "../../theme/typography";
 import LogoutModal from "../../components/LogoutModal";
 import { CommonActions } from '@react-navigation/native';
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const MenuItem = ({
   icon,
@@ -93,7 +97,7 @@ const handleLogout=()=>{
               style={styles.avatar}
             />
             <TouchableOpacity style={styles.editIcon}>
-              <Image  source={require('../../../assets/images/profile_edit.png')}></Image>
+              <Image   source={require('../../../assets/images/profile_edit.png')}></Image>
               {/* <Ionicons name="camera" size={16} color="#fff" /> */}
             </TouchableOpacity>
           </View>
@@ -159,7 +163,12 @@ const handleLogout=()=>{
   visible={showLogout}
   onCancel={() => setShowLogout(false)}
   onConfirm={handleLogout}
-/>
+title={
+    <>
+      Are you sure that you want to{'\n'}
+      Logout?
+    </>
+  }/>
     </ImageBackground>
         </ScreenWrapper>
 
@@ -171,117 +180,113 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-menuImage: {
-  width: 22,
-  height: 22,
-},
+
+  /* ===== HEADER ===== */
   header: {
-    alignItems: "center",
-    marginTop: 60,
-    marginBottom: 30,
+    alignItems: 'center',
+    marginTop: hp('5%'),
+    marginBottom: hp('4%'),
   },
 
   avatarWrapper: {
-    position: "relative",
+    position: 'relative',
   },
 
   avatar: {
-    width: 115,
-    height: 115,
-    borderRadius: 115/2,
-    borderWidth: 3,
-    //borderColor: "#ff1e1e",
+    width: wp('28%'),
+    height: wp('28%'),
+    borderRadius: wp('14%'),
+    borderWidth: wp('0.6%'),
   },
 
   editIcon: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    //backgroundColor: "#ff1e1e",
-    padding: 6,
-    borderRadius: 20,
+    position: 'absolute',
+    bottom: hp('0.6%'),
+    right: hp('0.1%'),
+    padding: wp('1.5%'),
+    borderRadius: wp('6%'),
   },
 
   username: {
-    marginTop: 8,
-    fontSize: 24,
-fontFamily:Typography.fontFamily.semibold,
-    fontWeight: "700",
-    color: "#ff1e1e",
+    marginTop: hp('1%'),
+    fontSize: wp('6%'),
+    fontFamily: Typography.fontFamily.semibold,
+    color: '#ff1e1e',
   },
 
+  /* ===== BADGES ===== */
   badgeRow: {
-    flexDirection: "row",
-    marginTop: 10,
-    gap: 8,
-    alignItems:'center'
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: hp('1.2%'),
   },
 
   badge: {
-    //paddingHorizontal: 10,
-    //paddingVertical: 5,
-    flexDirection:'row',
-    gap:5,
-   // borderRadius: 20,
-    //backgroundColor: "#1a1a1a",
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: wp('1.2%'),
   },
 
   badgeText: {
-    fontSize: 13,
-    fontFamily:Typography.fontFamily.medium,
-    color: "#fff",
-  },
-
-  verified: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
+    fontSize: wp('3.2%'),
+    fontFamily: Typography.fontFamily.medium,
+    color: '#fff',
   },
 
   verifiedText: {
-    fontSize: 12,
-    color: "#fff",
+    fontSize: wp('3%'),
+    color: '#fff',
   },
 
+  divider: {
+    width: wp('0.4%'),
+    height: hp('2%'),
+    backgroundColor: '#fff',
+    marginHorizontal: wp('2%'),
+    opacity: 0.5,
+  },
+
+  /* ===== MENU ===== */
   menuContainer: {
-    //marginTop: 10,
+    marginTop: hp('2%'),
   },
 
   menuItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 16,
-    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: hp('2%'),
+    paddingHorizontal: wp('5%'),
     borderBottomWidth: 0.5,
-    borderBottomColor: "#222",
+    borderBottomColor: '#222',
   },
 
   menuLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: wp('4%'),
+  },
+
+  menuImage: {
+    width: wp('5.5%'),
+    height: wp('5.5%'),
   },
 
   menuText: {
-    fontSize: 16,
-    fontFamily:Typography.fontFamily.semibold,
-    color: "#fff",
+    fontSize: wp('4%'),
+    fontFamily: Typography.fontFamily.semibold,
+    color: '#fff',
   },
 
+  /* ===== VERSION ===== */
   version: {
-    textAlign: "center",
-    marginTop: 30,
-    color: "#ff3b3b",
-    fontSize: 12,
-    fontFamily:Typography.fontFamily.regular
+    textAlign: 'center',
+    marginTop: hp('4%'),
+    marginBottom: hp('3%'),
+    color: '#ff3b3b',
+    fontSize: wp('3%'),
+    fontFamily: Typography.fontFamily.regular,
   },
-  divider: {
-  width: 2,
-  height: 15,          // must be visible
-  backgroundColor: '#fff',
-  marginHorizontal: 2,
-  opacity: 0.5,
-},
 });
+
 

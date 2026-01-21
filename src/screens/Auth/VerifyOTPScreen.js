@@ -15,7 +15,10 @@ import {
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AppButton from '../../components/AppButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen'; 
 export default function VerifyOTP({ navigation, route }) {
   const email = route?.params?.email || 'davidmicheal@gmail.com';
   const phone = route?.params?.phone || '+167975-8###';
@@ -73,12 +76,20 @@ export default function VerifyOTP({ navigation, route }) {
 
     setTimeout(() => {
       setSuccessVisible(false);
-      navigation.replace('Login');
-    }, 1800);
+      navigation.replace('Main');
+    }, 2000);
   };
 
   const formatTime = s => `01:${s < 10 ? `0${s}` : s}`;
+const openPinKeyboard = () => {
+  if (!inputRef.current) return;
 
+  inputRef.current.blur(); // 👈 reset focus
+
+  setTimeout(() => {
+    inputRef.current.focus(); // 👈 reopen keyboard
+  }, 50);
+};
   return (
     <ScreenWrapper>
        <ImageBackground
@@ -103,7 +114,7 @@ export default function VerifyOTP({ navigation, route }) {
         {/* OTP BOXES */}
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => inputRef.current?.focus()}
+          onPress={openPinKeyboard}
         >
           <View style={styles.otpRow}>
             {otp.map((d, i) => (
@@ -176,58 +187,62 @@ export default function VerifyOTP({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 10, flex: 1 },
-  badgeImage:{
-    width: 70,
-    height: 70,
-    marginBottom: 18,
+  container: {
+    flex: 1,
+    paddingHorizontal: wp('2%'),
+    paddingTop: hp('1%'),
   },
-inputBox: {
-    backgroundColor: "rgba(255,255,255,0.08)",
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    height: 54,
-    flexDirection: "row",
-    alignItems: "center",
+
+  inputBox: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: wp('3%'),
+    paddingHorizontal: wp('4%'),
+    height: hp('6.8%'),
+    flexDirection: 'row',
+    alignItems: 'center',
   },
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: hp('2%'),
   },
+
   headerTitle: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: wp('5.5%'),
     fontWeight: '600',
-    marginLeft: 12,
+    marginLeft: wp('3%'),
   },
 
   subText: {
     color: '#aaa',
-    fontSize: 14,
-    lineHeight: 22,
-    marginBottom: 28,
+    fontSize: wp('3.8%'),
+    lineHeight: wp('5.5%'),
+    marginBottom: hp('3%'),
   },
 
   otpRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 24,
-    marginHorizontal:15
+    marginBottom: hp('3%'),
+    marginHorizontal: wp('3%'),
   },
+
   otpBox: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('3%'),
     borderWidth: 1,
     borderColor: '#444',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.04)',
   },
+
   otpText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: wp('4.5%'),
     fontWeight: '500',
   },
 
@@ -238,53 +253,59 @@ inputBox: {
 
   timerText: {
     color: '#aaa',
-    fontSize: 13,
-    lineHeight: 20,
-    marginBottom: 30,
+    fontSize: wp('3.4%'),
+    lineHeight: wp('5%'),
+    marginBottom: hp('3%'),
   },
+
   timerRed: {
     color: '#ff3b3b',
     fontWeight: '600',
   },
+
   resend: {
     color: '#ff3b3b',
-    marginBottom: 30,
+    fontSize: wp('3.8%'),
+    marginBottom: hp('3%'),
   },
 
-  /* MODAL */
+  /* SUCCESS MODAL */
   backdrop: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.65)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   successCard: {
-    width: '80%',
+    width: wp('90%'),
     backgroundColor: '#0f0f0f',
-    borderRadius: 24,
-    padding: 28,
+    borderRadius: wp('6%'),
+    paddingVertical: hp('8%'),
+    paddingHorizontal: wp('6%'),
     alignItems: 'center',
   },
-  badge: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#ff3b3b',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 18,
+
+  badgeImage: {
+    width: wp('20%'),
+    height: wp('20%'),
+    marginBottom: hp('3.4%'),
+    resizeMode: 'contain',
   },
+
   successTitle: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: wp('5%'),
     fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: hp('1%'),
   },
+
   successDesc: {
     color: '#aaa',
     textAlign: 'center',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: wp('3.8%'),
+    lineHeight: wp('5%'),
   },
 });
+

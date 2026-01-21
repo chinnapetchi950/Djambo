@@ -1,65 +1,64 @@
 import React, { useEffect } from 'react';
 import {
   ImageBackground,
-  Text,
   StyleSheet,
   StatusBar,
   Platform,
-  Image
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Typography } from '../../theme/typography';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
 export default function SplashScreen({ navigation }) {
- 
   useEffect(() => {
-if (Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       StatusBar.setBackgroundColor('transparent');
       StatusBar.setTranslucent(true);
-      StatusBar.setHidden(false);
     }
-    StatusBar.setBarStyle('dark-content');
-    // Navigate after delay (optional)
-    setTimeout(() => navigation.replace('Auth'), 3000);
 
-    return () => {
-      // Restore status bar when leaving splash
-      //StatusBar.setHidden(false, 'fade');
-    };
+    StatusBar.setBarStyle('light-content');
+
+    const timer = setTimeout(() => {
+      navigation.replace('Auth');
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, [navigation]);
 
   return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar
-        translucent
-        backgroundColor="#000"
-        barStyle="light-content"
-        hidden={false}
-      /> 
- <ImageBackground
-      source={require('../../../assets/images/splash_bg.png')}
-      style={styles.container}
-      resizeMode="cover"
-    >
-      <Image style={{width:'62%',height:46}} source={require('../../../assets/images/splash_logo.png')}/>
-      {/* <Text style={styles.title}>DJAMBO</Text> */}
-    </ImageBackground>
+      <StatusBar translucent backgroundColor="transparent" />
+
+      <ImageBackground
+        source={require('../../../assets/images/splash_bg.png')}
+        style={styles.container}
+        resizeMode="cover"
+      >
+        <Image
+          source={require('../../../assets/images/splash_logo.png')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </ImageBackground>
     </SafeAreaView>
-   
   );
 }
 
 const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    color: '#fff',
-    fontSize: 36,
-    fontWeight: '700',
-    fontFamily: Typography.fontFamily.bold,
+  logo: {
+    width: wp('65%'),   // responsive width
+    height: hp('8%'),   // responsive height
   },
-  safe: { flex: 1 },
 });
-

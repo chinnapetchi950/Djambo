@@ -11,6 +11,11 @@ import Notification from '../screens/Profile/Notification';
 import Support from '../screens/Profile/Support';
 import Legal from '../screens/Profile/Legal';
 import GameStatistics from '../screens/Profile/GameStatistics';
+import CreateGUIOScreen from '../screens/Game/CreateGame';
+import Available from '../screens/Game/Available';
+import GameLoader from '../screens/Game/GameLoader';
+import WaitingRoomScreen from '../screens/Game/GameRoom';
+import FiveGameScreen from '../screens/Game/GameFive';
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
@@ -28,6 +33,11 @@ export default function RootNavigator() {
       <Stack.Screen name="Support" component={Support} />
       <Stack.Screen name="Legal" component={Legal} />
       <Stack.Screen name="GameStatistics" component={GameStatistics} />
+      <Stack.Screen name="CreateGUIOScreen" component={CreateGUIOScreen} />
+      <Stack.Screen name="Available" component={Available} />
+      <Stack.Screen name="GameLoader" component={GameLoader} />
+      <Stack.Screen name="WaitingRoomScreen" component={WaitingRoomScreen} />
+       <Stack.Screen name="FiveGameScreen" component={FiveGameScreen} />
     </Stack.Navigator>
   );
 }

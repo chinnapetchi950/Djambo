@@ -20,6 +20,10 @@ import {
   RESULTS,
 } from 'react-native-permissions';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const avatars = [
   require('../../../assets/images/Cartoon1.png'),
   require('../../../assets/images/Cartoon2.png'),
@@ -166,7 +170,7 @@ const pickFromCamera = async () => {
         />
  <AppButton
           title="Next"
-          btnstyle={{ marginBottom: '32%'}}
+          btnstyle={{ marginBottom: '28%'}}
           onPress={() => {navigation.navigate('CreateAccount')}}
         />
         {/* Next Button */}
@@ -212,106 +216,124 @@ const pickFromCamera = async () => {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
+  container: {
+    flex: 1,
+    paddingHorizontal: wp('3%'),
+    paddingTop: hp('3%'),
+  },
 
+  /* HEADER */
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 30,
-  },
-  headerTitle: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '700',
-    marginLeft: 10,
+    marginBottom: hp('4%'),
   },
 
+  headerTitle: {
+    color: '#fff',
+    fontSize: wp('5.6%'),
+    fontWeight: '700',
+    marginLeft: wp('3%'),
+  },
+
+  inputBox: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: wp('3%'),
+    paddingHorizontal: wp('3.5%'),
+    height: hp('6.5%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  /* UPLOAD */
   uploadBox: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
     borderStyle: 'dashed',
     borderColor: '#ff3b3b',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-  },
-  uploadText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight:'500',
-    marginLeft: 10,
+    borderRadius: wp('4%'),
+    padding: wp('4%'),
+    marginBottom: hp('2%'),
   },
 
+  uploadText: {
+    color: '#fff',
+    fontSize: wp('4%'),
+    fontWeight: '500',
+    marginLeft: wp('3%'),
+  },
+
+  previewImage: {
+    width: wp('15%'),
+    height: wp('15%'),
+    borderRadius: wp('7.5%'),
+  },
+
+  /* TEXT */
   orText: {
     textAlign: 'center',
     color: '#fff',
-    marginVertical: 12,
+    marginVertical: hp('1.8%'),
+    fontSize: wp('3.8%'),
   },
 
   sectionTitle: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: wp('4.6%'),
     fontWeight: '600',
-    marginBottom: 16,
+    marginBottom: hp('2%'),
   },
 
+  /* AVATAR GRID */
   avatarGrid: {
-    paddingBottom: 20,
+    paddingBottom: hp('3%'),
   },
 
   avatarWrapper: {
-    width: '25%',
+    width: wp('24%'),
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: hp('2%'),
   },
+
   avatar: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+    width: wp('17%'),
+    height: wp('17%'),
+    borderRadius: wp('8.5%'),
   },
+
   avatarSelected: {
     borderWidth: 2,
     borderColor: '#ff3b3b',
-    borderRadius: 40,
-    padding: 3,
+    borderRadius: wp('10%'),
+    padding: wp('1%'),
   },
-  previewImage: {
-  width: 60,
-  height: 60,
-  borderRadius: 30,
-},
 
-pickerOverlay: {
-  flex: 1,
-  backgroundColor: 'rgba(0,0,0,0.6)',
-  justifyContent: 'flex-end',
-},
+  /* MODAL */
+  pickerOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'flex-end',
+  },
 
-pickerCard: {
-  backgroundColor: '#060605',
-  padding: 20,
-  borderTopLeftRadius: 24,
-  borderTopRightRadius: 24,
-},
+  pickerCard: {
+    backgroundColor: '#060605',
+    paddingVertical: hp('3%'),
+    paddingHorizontal: wp('5%'),
+    borderTopLeftRadius: wp('6%'),
+    borderTopRightRadius: wp('6%'),
+  },
 
-pickerItem: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  paddingVertical: 14,
-},
+  pickerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: hp('2%'),
+  },
 
-pickerText: {
-  color: '#fff',
-  fontSize: 16,
-  marginLeft: 12,
-},
-inputBox: {
-    backgroundColor: "rgba(255,255,255,0.08)",
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    height: 54,
-    flexDirection: "row",
-    alignItems: "center",
+  pickerText: {
+    color: '#fff',
+    fontSize: wp('4%'),
+    marginLeft: wp('3%'),
   },
 });
+

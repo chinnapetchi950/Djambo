@@ -3,11 +3,12 @@ import {
   Modal,
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
+import ActionButtons from "./Rowbuttons";
 
-const LogoutModal = ({ visible, onCancel, onConfirm }) => {
+const LogoutModal = ({ visible, onCancel, title, onConfirm }) => {
   return (
     <Modal
       transparent
@@ -17,27 +18,19 @@ const LogoutModal = ({ visible, onCancel, onConfirm }) => {
     >
       <View style={styles.overlay}>
         <View style={styles.modalBox}>
-          <Text style={styles.title}>
-            Are you sure that you want to{"\n"}Logout?
-          </Text>
+          <Text style={styles.title}>{title}</Text>
 
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={styles.noButton}
-              onPress={onCancel}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.noText}>No</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.yesButton}
-              onPress={onConfirm}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.yesText}>Yes</Text>
-            </TouchableOpacity>
-          </View>
+          <ActionButtons
+            leftLabel="No"
+            onLeftPress={onCancel}
+            rightLabel="Yes"
+            onRightPress={onConfirm}
+            containerStyle={{ width: "100%", marginTop: hp("2%") }}
+            leftButtonStyle={{ height: hp("6%"), borderRadius: wp("6%") }}
+            rightButtonStyle={{ height: hp("6%"), borderRadius: wp("6%") }}
+            leftTextStyle={{ fontSize: wp("4%") }}
+            rightTextStyle={{ fontSize: wp("4%") }}
+          />
         </View>
       </View>
     </Modal>
@@ -45,8 +38,9 @@ const LogoutModal = ({ visible, onCancel, onConfirm }) => {
 };
 
 export default LogoutModal;
+
 const styles = StyleSheet.create({
-    overlay: {
+  overlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.75)",
     justifyContent: 'flex-end',
@@ -54,78 +48,21 @@ const styles = StyleSheet.create({
   },
 
   modalBox: {
-    width: "100%",
+    width: wp("100%"),
     backgroundColor: "#0f0f0f",
-    borderTopRightRadius:24,
-    borderTopLeftRadius:24,
-   // borderRadius: 24,
-    padding: 15,
-    paddingVertical:44,
+    borderTopRightRadius: wp("4%"),
+    borderTopLeftRadius: wp("4%"),
+    paddingHorizontal: wp("5%"),
+    paddingVertical: hp("5%"),
     alignItems: "center",
   },
-//   overlay: {
-//     flex: 1,
-//     backgroundColor: "rgba(0,0,0,0.85)",
-//     justifyContent: 'flex-end',
-//     alignItems: "center",
-//   },
-
-//   modalBox: {
-//     width: "85%",
-//     paddingVertical: 32,
-//     paddingHorizontal: 20,
-//     borderTopLeftRadius:24,
-//     borderTopRightRadius:24,
-//    // borderRadius: 24,
-//     backgroundColor: "#000",
-//     alignItems: "center",
-//   },
 
   title: {
     color: "#fff",
-    fontSize: 22,
+    fontSize: wp("5.5%"),
     fontWeight: "700",
     textAlign: "center",
-    lineHeight: 28,
-    marginBottom: 28,
-  },
-
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-
-  noButton: {
-    flex: 1,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 1.5,
-    borderColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10,
-  },
-
-  noText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-
-  yesButton: {
-    flex: 1,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: "#FF3B3B",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 10,
-  },
-
-  yesText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "700",
+    lineHeight: hp("4%"),
+    marginBottom: hp("2%"),
   },
 });

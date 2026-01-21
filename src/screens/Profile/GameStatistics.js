@@ -6,27 +6,20 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
-  ScrollView,
-  Dimensions
+  ScrollView
 } from "react-native";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Typography } from "../../theme/typography";
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const GAP = 12;
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-// 2 column cards
-const STAT_CARD_WIDTH = (SCREEN_WIDTH - (GAP * 3)) / 2;
-
-// 3 column cards
-const KORA_CARD_WIDTH = (SCREEN_WIDTH - (GAP * 4)) / 3;
 const StatCard = ({ icon, value, label }) => {
   return (
     <View style={styles.statCardWrapper}>
       <ImageBackground
         source={require("../../../assets/images/cardbg_game.png")}
         style={styles.statCard}
-        imageStyle={{ borderRadius: 18 }}
+        imageStyle={{ borderRadius: wp("4%") }}
       >
         <View style={styles.statRow}>
           <Image source={icon} style={styles.statIcon} />
@@ -52,7 +45,7 @@ export default function GameStatistics({ navigation }) {
               style={styles.backBtn}
               onPress={() => navigation.goBack()}
             >
-              <Ionicons name="chevron-back" size={24} color="#fff" />
+              <Ionicons name="chevron-back" size={wp("6%")} color="#fff" />
             </TouchableOpacity>
             <Text style={styles.headerText}>Game Statistics</Text>
           </View>
@@ -68,9 +61,7 @@ export default function GameStatistics({ navigation }) {
           {/* Earnings */}
           <View style={styles.earningCard}>
             <View style={styles.earningHeader}>
-              <Text style={styles.earningIcon}>
-                <Image source={require('../../../assets/images/earns.png')}></Image>
-              </Text>
+              <Image source={require('../../../assets/images/earns.png')} style={{width: wp("7%"), height: wp("7%")}} />
               <Text style={styles.sectionTitle}>Earnings</Text>
             </View>
 
@@ -88,56 +79,51 @@ export default function GameStatistics({ navigation }) {
           </View>
 
           {/* Favorite Game */}
-<ImageBackground
-  source={require('../../../assets/images/favgame_bg.png')}
-  style={styles.favoriteCard}
-  imageStyle={{ borderRadius: 22 }}
->
-  <View style={styles.favoriteLeftBlock}>
-    <View style={styles.favoriteIconWrap}>
-      <Image
-        source={require('../../../assets/images/Five.png')}
-        style={{ width: 26, height: 26 }}
-        resizeMode="contain"
-      />
-    </View>
-  </View>
+          <ImageBackground
+            source={require('../../../assets/images/favgame_bg.png')}
+            style={styles.favoriteCard}
+            imageStyle={{ borderRadius: wp("5%") }}
+          >
+            <View style={styles.favoriteLeftBlock}>
+              <View style={styles.favoriteIconWrap}>
+                <Image
+                  source={require('../../../assets/images/Five.png')}
+                  style={{ width: wp("9%"), height: wp("9%") }}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
 
-  <View>
-    <Text style={styles.favoriteTitle}>FIVE (FAPFAP)</Text>
-    <Text style={styles.favoriteSub}>Favorite Game</Text>
-  </View>
-</ImageBackground>
-
-
+            <View style={{ marginLeft: wp("3%") }}>
+              <Text style={styles.favoriteTitle}>FIVE (FAPFAP)</Text>
+              <Text style={styles.favoriteSub}>Favorite Game</Text>
+            </View>
+          </ImageBackground>
 
           {/* KORA Stats */}
           <Text style={styles.koraTitle}>KORA Statistics</Text>
-<View style={styles.koraRow}>
-  {[
-    { value: "12", label: "Total KORA" },
-    { value: "3", label: "Double KORA" },
-    { value: "75%", label: "KORA Win Rate" },
-  ].map((item, index) => (
-    <ImageBackground
-      key={index}
-      source={require('../../../assets/images/kora_bg.png')}
-      style={styles.koraCard}
-      imageStyle={{ borderRadius: 16 }}
-    >
-      <Text style={styles.koraValue}>{item.value}</Text>
-      <Text style={styles.koraLabel}>{item.label}</Text>
-    </ImageBackground>
-  ))}
-</View>
-
-        
+          <View style={styles.koraRow}>
+            {[
+              { value: "12", label: "Total KORA" },
+              { value: "3", label: "Double KORA" },
+              { value: "75%", label: "KORA Win Rate" },
+            ].map((item, index) => (
+              <ImageBackground
+                key={index}
+                source={require('../../../assets/images/kora_bg.png')}
+                style={styles.koraCard}
+                imageStyle={{ borderRadius: wp("3.5%") }}
+              >
+                <Text style={styles.koraValue}>{item.value}</Text>
+                <Text style={styles.koraLabel}>{item.label}</Text>
+              </ImageBackground>
+            ))}
+          </View>
 
           {/* Footer */}
           <View style={styles.footerInfo}>
             <Text style={styles.footerText}>
-              All statistics are updated in real-time based on your gameplay
-              activity
+              All statistics are updated in real-time based on your gameplay activity
             </Text>
           </View>
         </ScrollView>
@@ -149,221 +135,184 @@ export default function GameStatistics({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: wp("4%"),
+    paddingBottom: hp("3%"),
   },
 
   /* HEADER */
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: hp("3%"),
+    marginTop:hp('2%')
   },
-
   backBtn: {
     backgroundColor: "rgba(255,255,255,0.08)",
-    padding: 10,
-    borderRadius: 12,
+    padding: wp("3%"),
+    borderRadius: wp("3%"),
   },
-
   headerText: {
     color: "#fff",
-    fontSize: 22,
-    marginLeft: 14,
+    fontSize: wp("5%"),
+    marginLeft: wp("3%"),
     fontFamily: Typography.fontFamily.semibold,
   },
 
   /* STAT GRID */
- grid: {
-  flexDirection: "row",
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-},
-
-statCardWrapper: {
-  width: "48%",           // 🔥 FIXED (not flexBasis)
-  marginBottom: 14,
-},
-
-statCard: {
-  height: 96,
-  padding: 14,
-  justifyContent: "space-between",
-},
-
-
-statCardInner: {
-  flex: 1,
-  borderRadius: 18,
-  padding: 14,
-  gap:10,
-  justifyContent: "space-between",
-},
-
-  statCardImage: {
-    borderRadius: 18,
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
   },
-
+  statCardWrapper: {
+    width: "48%",
+    marginBottom: hp("2%"),
+  },
+  statCard: {
+    height: hp("12%"),
+    padding: wp("5.4%"),
+    justifyContent: "space-between",
+  },
   statRow: {
     flexDirection: "row",
     alignItems: "center",
   },
-
   statIcon: {
-    width: 24,
-    height: 24,
-    marginRight: 8,
+    width: wp("6%"),
+    height: wp("6%"),
+    marginRight: wp("2%"),
   },
-
   statValue: {
     color: "#fff",
-    fontSize: 26,
+    fontSize: wp("5.5%"),
     fontWeight: "700",
   },
-
   statLabel: {
     color: "#e0e0e0",
-    fontSize: 14,
+    fontSize: wp("3.5%"),
+    textAlign:'center',
+    marginRight:wp('6%')
   },
 
   /* EARNINGS */
   earningCard: {
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.25)",
-    borderRadius: 20,
-    padding: 18,
-    marginTop: 10,
+    borderRadius: wp("4%"),
+    padding: wp("4%"),
+    marginTop: hp("2%"),
   },
-
   earningHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 14,
+    marginBottom: hp("1.5%"),
   },
-
   sectionTitle: {
     color: "#fff",
-    fontSize: 18,
-    marginLeft: 8,
+    fontSize: wp("4.5%"),
+    marginLeft: wp("2%"),
     fontWeight: "600",
   },
-
   earningRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: hp("1%"),
   },
-
   earningLabel: {
     color: "#aaa",
-    fontSize: 14,
+    fontSize: wp("3.5%"),
   },
-
   earningValue: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: wp("4%"),
     fontWeight: "600",
   },
-
   divider: {
     height: 1,
     backgroundColor: "rgba(255,255,255,0.2)",
-    marginVertical: 12,
+    marginVertical: hp("1.5%"),
   },
 
   /* FAVORITE GAME */
   favoriteCard: {
     flexDirection: "row",
     alignItems: "center",
-    height: 90,               // 🔥 FIXED LIKE FIGMA
-    borderRadius: 22,
-    paddingRight: 16,
-    marginTop: 20,
+    height: hp("12%"),
+    borderRadius: wp("5%"),
+    paddingRight: wp("4%"),
+    marginTop: hp("2%"),
     overflow: "hidden",
   },
-
   favoriteLeftBlock: {
-    width: 90,
+    width: wp("14%"),
     height: "100%",
     backgroundColor: "#FF7A2F",
     justifyContent: "center",
     alignItems: "center",
   },
-
   favoriteIconWrap: {
-    width: 46,
-    height: 46,
-    borderRadius: 14,
+    width: wp("12%"),
+    height: wp("12%"),
+    borderRadius: wp("3%"),
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
   },
-
   favoriteTitle: {
     color: "#fff",
-    fontSize: 18,
-    marginLeft:10,
+    fontSize: wp("4.2%"),
     fontWeight: "700",
   },
-
   favoriteSub: {
     color: "#bbb",
-    marginTop: 4,
-    fontWeight:'600',
-    marginLeft:10,
+    fontSize: wp("3.5%"),
+    marginTop: hp("0.5%"),
   },
 
   /* KORA */
   koraTitle: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: wp("5%"),
     fontWeight: "700",
-    marginTop: 28,
-    marginBottom: 14,
+    marginTop: hp("3%"),
+    marginBottom: hp("1.5%"),
   },
-
- koraRow: {
-  flexDirection: "row",
-  marginHorizontal: -6,
-},
-
-koraCard: {
-  flex: 1,               // 🔥 KEY
-  marginHorizontal: 6,
-  height: 88,
-  borderRadius: 16,
-  justifyContent: "center",
-  alignItems: "center",
-},
-
+  koraRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  koraCard: {
+    flex: 1,
+    height: hp("11%"),
+    marginHorizontal: wp("1%"),
+    borderRadius: wp("3%"),
+    justifyContent: "center",
+    alignItems: "center",
+  },
   koraValue: {
     color: "#fff",
-    fontSize: 22,
+    fontSize: wp("4.5%"),
     fontWeight: "700",
   },
-
   koraLabel: {
     color: "#ddd",
-    fontSize: 13,
-    marginTop: 6,
+    fontSize: wp("3.5%"),
+    marginTop: hp("0.5%"),
     textAlign: "center",
   },
 
   /* FOOTER */
   footerInfo: {
     backgroundColor: "rgba(60,60,60,0.6)",
-    borderRadius: 16,
-    padding: 16,
-    marginTop: 24,
-    marginBottom: 40,
+    borderRadius: wp("4%"),
+    padding: wp("3%"),
+    marginTop: hp("3%"),
+    marginBottom: hp("5%"),
   },
-
   footerText: {
     color: "#ddd",
     textAlign: "center",
-    fontSize: 13,
-    lineHeight: 18,
+    fontSize: wp("3.5%"),
+    lineHeight: hp("2.5%"),
   },
 });
-
-
-

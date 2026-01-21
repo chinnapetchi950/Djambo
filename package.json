@@ -29,6 +29,7 @@
     "react-i18next": "^16.5.0",
     "react-native": "^0.82.1",
     "react-native-blob-util": "^0.24.5",
+    "react-native-fast-image": "^8.6.3",
     "react-native-htmlview": "^0.17.0",
     "react-native-image-picker": "^8.2.1",
     "react-native-linear-gradient": "^2.8.3",

@@ -8,12 +8,17 @@ import {
   Platform,
   Modal,
   FlatList,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from 'react-native';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AppInput from '../../components/AppInput';
 import AppButton from '../../components/AppButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const COUNTRIES = ['India', 'United States', 'United Kingdom'];
 const CURRENCIES = ['USD', 'INR', 'GBP'];
@@ -49,6 +54,9 @@ export default function CreateAccount({ navigation }) {
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
+        <ScrollView contentContainerStyle={{paddingBottom:30}}>
+
+       
         {/* HEADER */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.inputBox} onPress={() => navigation.goBack()}>
@@ -145,7 +153,7 @@ export default function CreateAccount({ navigation }) {
             Login
           </Text>
         </Text>
-
+ </ScrollView>
         {/* PICKER MODAL */}
         <Modal transparent visible={picker.visible} animationType="fade">
           <TouchableOpacity style={styles.modalOverlay} onPress={closePicker}>
@@ -170,53 +178,61 @@ export default function CreateAccount({ navigation }) {
     </ScreenWrapper>
   );
 }
-
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10 },
+  container: {
+    flex: 1,
+    paddingHorizontal: wp('2%'),
+    paddingTop: hp('1%'),
+  },
 
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: hp('2%'),
   },
+
   headerTitle: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: wp('5.5%'),
     fontWeight: '600',
-    marginLeft: 12,
+    marginLeft: wp('3%'),
   },
 
   label: {
     color: '#fff',
-    marginBottom: 6,
-    marginTop: 14,
+    marginBottom: hp('0.6%'),
+    marginTop: hp('1.8%'),
+    fontSize: wp('3.8%'),
   },
 
   selectBox: {
-    height: 54,
-    borderRadius: 16,
+    height: hp('6.8%'),
+    borderRadius: wp('4%'),
     backgroundColor: 'rgba(255,255,255,0.08)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: wp('4%'),
   },
+
   selectText: {
     color: '#aaa',
-    fontSize: 15,
+    fontSize: wp('4%'),
   },
 
   termsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: hp('2.5%'),
   },
+
   termsText: {
     color: '#ccc',
-    marginLeft: 8,
-    fontSize: 13,
+    marginLeft: wp('2%'),
+    fontSize: wp('3.3%'),
     flex: 1,
   },
+
   link: {
     color: '#fff',
     textDecorationLine: 'underline',
@@ -225,33 +241,41 @@ const styles = StyleSheet.create({
   loginText: {
     textAlign: 'center',
     color: '#888',
-    marginTop: 18,
+    marginTop: hp('2%'),
+    fontSize: wp('3.5%'),
   },
 
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.6)',
     justifyContent: 'center',
-    padding: 30,
+    paddingHorizontal: wp('8%'),
   },
+
   modalCard: {
     backgroundColor: '#1c1c1c',
-    borderRadius: 18,
-    padding: 10,
+    borderRadius: wp('5%'),
+    paddingVertical: hp('1%'),
   },
+
   modalItem: {
-    padding: 14,
+    paddingVertical: hp('1.8%'),
+    paddingHorizontal: wp('4%'),
   },
+
   modalText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: wp('4.2%'),
   },
+
   inputBox: {
-    backgroundColor: "rgba(255,255,255,0.08)",
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    height: 54,
-    flexDirection: "row",
-    alignItems: "center",
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: wp('3%'),
+    paddingHorizontal: wp('4%'),
+    height: hp('6.8%'),
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
+
+

@@ -8,16 +8,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const Header = () => {
   return (
     <ImageBackground
-      source={require('../../assets/images/headerTop.png')} // red curved image
+      source={require('../../assets/images/headerTop.png')}
       style={styles.header}
       imageStyle={styles.headerImage}
     >
       <View style={styles.row}>
-        {/* Left */}
+        {/* LEFT */}
         <View style={styles.left}>
           <Image
             source={{ uri: 'https://i.pravatar.cc/100' }}
@@ -30,9 +34,13 @@ const Header = () => {
           </View>
         </View>
 
-        {/* Right */}
-        <TouchableOpacity style={styles.bell}>
-          <Ionicons name="notifications" size={22} color="#FFD200" />
+        {/* RIGHT */}
+        <TouchableOpacity style={styles.bell} activeOpacity={0.8}>
+          <Ionicons
+            name="notifications"
+            size={wp('6%')}
+            color="#FFD200"
+          />
           <View style={styles.dot} />
         </TouchableOpacity>
       </View>
@@ -41,17 +49,18 @@ const Header = () => {
 };
 
 export default Header;
-const styles = StyleSheet.create({
- header: {
-  height: 240,          // reduce from 268
-  paddingTop: 58,       // status bar + spacing
-  paddingHorizontal: 16,
-},
 
-headerImage: {
-  borderBottomLeftRadius: 32,
-  borderBottomRightRadius: 32,
-},
+const styles = StyleSheet.create({
+  header: {
+    height: hp('28%'),              // responsive header height
+    paddingTop: hp('6%'),           // handles status bar space
+    paddingHorizontal: wp('4%'),
+  },
+
+  headerImage: {
+    borderBottomLeftRadius: wp('8%'),
+    borderBottomRightRadius: wp('8%'),
+  },
 
   row: {
     flexDirection: 'row',
@@ -65,36 +74,36 @@ headerImage: {
   },
 
   avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    marginRight: 12,
+    width: wp('14%'),
+    height: wp('14%'),
+    borderRadius: wp('7%'),
+    marginRight: wp('3%'),
   },
 
   hello: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: wp('4.6%'),
     fontWeight: '700',
   },
 
   sub: {
     color: '#F2CFCF',
-    fontSize: 13,
-    marginTop: 2,
+    fontSize: wp('3.4%'),
+    marginTop: hp('0.3%'),
   },
 
   bell: {
     position: 'relative',
-    tintColor:'#fff'
+    padding: wp('1%'),
   },
 
   dot: {
     position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    top: wp('0.8%'),
+    right: wp('0.8%'),
+    width: wp('2%'),
+    height: wp('2%'),
+    borderRadius: wp('1%'),
     backgroundColor: '#FF3B30',
   },
 });

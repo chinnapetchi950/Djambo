@@ -1,223 +1,244 @@
-import React, { useState } from 'react';
+
+import React,{useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
-  TextInput,
   ScrollView,
+  ImageBackground,
+  TextInput
 } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import LinearGradient from 'react-native-linear-gradient';
 import ScreenWrapper from '../../components/ScreenWrapper';
+import LinearGradient from 'react-native-linear-gradient';
+import SearchFilterBar from '../../components/SearchFilter';
+import { TokenClass } from 'typescript';
 
-const GAME_TYPES = [
-  {
-    id: 'FIVE',
-    title: 'FIVE (FAPFAP)',
-    desc: 'Classic five-card game',
-    players: '2-4 Players',
-    min: 500,
-  },
-  {
-    id: 'TIA_DIRECT',
-    title: 'TIA DIRECT',
-    desc: 'Fast Paced direct play',
-    players: '2 Players',
-    min: 1000,
-  },
-  {
-    id: 'TIA_AGARAM',
-    title: 'TIA AGARAM',
-    desc: 'Strategic Variant with side bets',
-    players: '2-4 Players',
-    min: 2000,
-  },
-];
 
-const GUIOS = [
-  {
-    id: '1',
-    host: 'CardBoss',
-    game: 'FIVE (FAPFAP)',
-    bet: 5,
-    players: 3,
-    max: 4,
-    identity: 'Anonymous',
-  },
-  {
-    id: '2',
-    host: 'Player123',
-    game: 'TIA DIRECT',
-    bet: 10,
-    players: 3,
-    max: 4,
-    identity: 'Open',
-  },
-  {
-    id: '3',
-    host: 'CardBoss',
-    game: 'TIA AGARAM',
-    bet: 5,
-    players: 4,
-    max: 4,
-    identity: 'Anonymous',
-  },
-];
-
-export default function Game() {
-  const [search, setSearch] = useState('');
-  const [selectedGame, setSelectedGame] = useState('FIVE');
-
-  const filteredGuios = GUIOS.filter(g =>
-    g.host.toLowerCase().includes(search.toLowerCase()),
-  );
-
+const Game = ({navigation}) => {
+      const [showBet, setShowBet] = useState(false);
+      const [showCurrency, setShowCurrency] = useState(false);
+      const [search,setSearch]=useState('')
   return (
     <ScreenWrapper>
-<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Choose a Game</Text>
-        <View>
-          <Ionicons name="notifications" size={22} color="#FFD200" />
-          <View style={styles.badge} />
-        </View>
-      </View>
-
-      {/* GAME TYPES */}
-      <FlatList
-        data={GAME_TYPES}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingVertical: 16 }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => setSelectedGame(item.id)}
-            activeOpacity={0.9}
-          >
-            <GameTypeCard item={item} active={selectedGame === item.id} />
-          </TouchableOpacity>
-        )}
-      />
-
-      {/* ACTION BUTTONS */}
-      <View style={styles.actionRow}>
-        <ActionButton outline title="Create New GUIO" />
-        <ActionButton solid title="Join GUIO" />
-      </View>
-
-      {/* SEARCH */}
-      <View style={styles.searchBar}>
-        <Ionicons name="search" size={18} color="#999" />
-        <TextInput
-          placeholder="Search for player"
-          placeholderTextColor="#999"
-          style={styles.searchInput}
-          value={search}
-          onChangeText={setSearch}
-        />
-      </View>
-
-      {/* AVAILABLE GUIOS */}
-      <View style={styles.listHeader}>
-        <Text style={styles.sectionTitle}>Available GUIOs</Text>
-        <Text style={styles.viewAll}>View All</Text>
-      </View>
-
-      {filteredGuios.map(item => (
-        <GuioCard key={item.id} item={item} />
-      ))}
-    </ScrollView>
-    </ScreenWrapper>
-    
-  );
-}
-const GameTypeCard = ({ item, active }) => (
-  <LinearGradient
-    colors={['#0C0C0C', '#120707']}
-    style={[
-      styles.gameCard,
-      active && { borderColor: '#FF2D2D' },
-    ]}
-  >
-    <Text style={styles.gameTitle}>{item.title}</Text>
-    <Text style={styles.gameDesc}>{item.desc}</Text>
-    <Text style={styles.gameInfo}>{item.players}</Text>
-    <Text style={styles.gameInfo}>Min : {item.min} FCFA</Text>
-  </LinearGradient>
-);
-const GuioCard = ({ item }) => {
-  const status =
-    item.players === item.max
-      ? 'Full'
-      : item.players === item.max - 1
-      ? 'Almost Full'
-      : 'Waiting';
-
-  const statusColor =
-    status === 'Full' ? '#1ED760' : status === 'Almost Full' ? '#FFA500' : '#FFD200';
-
-  return (
-    <View style={styles.guioCard}>
-      <Text style={[styles.status, { color: statusColor }]}>• {status}</Text>
-
-      <Text style={styles.guioTitle}>
-        {item.host} ({item.game})
-      </Text>
-
-      <Text style={styles.guioSub}>
-        Bet: €{item.bet} | Players: {item.players}/{item.max}
-      </Text>
-
-      <Text style={styles.guioSub}>Identity: {item.identity}</Text>
-
-      <TouchableOpacity
-        style={[
-          styles.joinBtn,
-          status === 'Full' && { opacity: 0.5 },
-        ]}
-        disabled={status === 'Full'}
+      <ImageBackground
+        source={require('../../../assets/images/profile_bg.png')}
+        style={styles.bg}
+        resizeMode="cover"
       >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+        >
+
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.title}>Choose a Game</Text>
+ <TouchableOpacity>
+                 
+                          <Ionicons name="notifications" size={22} color="#FFD200" />
+                          <View style={styles.badgen} />
+                        
+              </TouchableOpacity>          </View>
+
+          {/* Game Cards */}
+          <View style={styles.cardRow}>
+            <GameCard
+              title="FIVE (FAPFAP)"
+              desc="Classic five-card game"
+              players="2–4 Players"
+              min="Min : 500 FCFA"
+              onPress={()=>navigation.navigate('Available', {
+  headerTitle: ` FIVE (FAPFAP)`,
+})}
+            />
+            <GameCard
+              title="TIA DIRECT"
+              desc="Fast Paced direct play"
+              players="2 Players"
+              min="Min : 1000 FCFA"
+              onPress={()=>navigation.navigate('Available', {
+  headerTitle: ` TIA DIRECT `,
+})}
+            />
+            <GameCard
+              title="TIA AGARAM"
+              desc="Strategic Variant with side bets"
+              players="2–4 Players"
+              min="Min : 2000 FCFA"
+              onPress={()=>navigation.navigate('Available', {
+  headerTitle: `TIA AGARAM `,
+})}
+            />
+          </View>
+
+          {/* Buttons */}
+          <View style={styles.actionRow}>
+            <ActionButton label="Create New GUIO" outlined onPress={()=>navigation.navigate('CreateGUIOScreen')} />
+            <ActionButton  onPress={()=>navigation.navigate('Available',{join:true})}label="Join GUIO" filled />
+          </View>
+
+          {/* Search */}
+          
+ <SearchFilterBar
+  searchValue={search}
+  onSearchChange={setSearch}
+  onBetPress={() => {
+    setShowBet(!showBet);
+    setShowCurrency(false);
+  }}
+  onCurrencyPress={() => {
+    setShowCurrency(!showCurrency);
+    setShowBet(false);
+  }}
+/>
+         
+       
+<View style={styles.dropdownWrapper}>
+  {/* <TouchableOpacity style={styles.selectBtn}>
+    <Text style={{ color: '#fff' }}>Bet</Text>
+  </TouchableOpacity> */}
+
+{showBet && <Dropdown  onclose={()=>{setShowBet(false)}} data={['€5', '€10', '€20']} />}
+{showCurrency && <Dropdown onclose={()=>{setShowCurrency(false)}} data={['FCFA', 'EUR', 'USD']} />}
+</View>
+
+
+          {/* Section */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Available GUIOs</Text>
+            <TouchableOpacity onPress={()=>navigation.navigate('Available')}>
+            <Text style={styles.viewAll}>View All</Text>
+
+            </TouchableOpacity>
+          </View>
+
+          {/* GUI Cards */}
+          <GuiCard
+            status="Almost Full"
+            statusColor="#FFA500"
+            name="John jolly"
+            game="FIVE(FAPFAP)"
+            bet="€5"
+            players="3/4"
+            identity="Anonymous"
+            onPress={()=>navigation.navigate('GameLoader',{gametype:'five'})}
+          />
+
+          <GuiCard
+            status="Waiting"
+            statusColor="#FFD400"
+            name="John Deo"
+            game="TIA DIRECT"
+            bet="€10"
+            players="3/4"
+            identity="Open"
+            onPress={()=>navigation.navigate('GameLoader',{gametype:'tia'})}
+          />
+ <GuiCard
+            status="Full"
+            statusColor="#00C853"
+            name="John Deo"
+            game="TIA AGARAM"
+            bet="€10"
+            players="3/4"
+            identity="Open"
+            onPress={()=>navigation.navigate('GameLoader',{gametype:'agaram'})}
+          />
+        </ScrollView>
+      </ImageBackground>
+    </ScreenWrapper>
+  );
+};
+
+export default Game;
+const GameCard = ({ title, desc, players, min,onPress }) => (
+  <ImageBackground
+  
+    source={require('../../../assets/images/Gamecard_bg.png')}
+    style={styles.gameCard}
+    resizeMode="cover"
+  >
+    <TouchableOpacity onPress={onPress}>
+  <Text style={styles.gameTitle}>{title}</Text>
+    <Text style={styles.gameDesc}>{desc}</Text>
+    <Text style={styles.gameMeta}>{players}</Text>
+    <Text style={styles.gameMin}>{min}</Text>
+    </TouchableOpacity>
+  
+  </ImageBackground>
+);
+const GuiCard = ({ status, statusColor, name, game, bet, players, identity,onPress }) => (
+  <View style={styles.guiCard}>
+    <Text style={[styles.status, { color: statusColor }]}>• {status}</Text>
+    <View style={styles.guiRow}>
+      <View>
+        <Text style={styles.guiName}>
+          {name} <Text style={styles.guiGame}>({game})</Text>
+        </Text>
+        <Text style={styles.guiMeta}>Bet: {bet} | Players: {players}</Text>
+        <Text style={styles.guiMeta}>Identity: {identity}</Text>
+      </View>
+      <TouchableOpacity onPress={onPress} style={styles.joinBtn}>
         <Text style={styles.joinText}>Join</Text>
       </TouchableOpacity>
     </View>
+  </View>
+);
+
+const ActionButton = ({ label, filled, onPress }) => {
+  if (filled) {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.actionBtn, styles.filledBtn]}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.filledText}>+ {label}</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  return (
+    <ImageBackground
+      source={require('../../../assets/images/secondarybtnbg.png')}
+      style={styles.actionBtn}
+      resizeMode="cover"
+    >
+      <TouchableOpacity
+        onPress={onPress}
+        style={styles.fullBtn}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.outlinedText}>+ {label}</Text>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 };
-const ActionButton = ({ title, solid }) => (
-  <TouchableOpacity
-    style={[
-      styles.actionBtn,
-      solid
-        ? { backgroundColor: '#FF2D2D' }
-        : { borderWidth: 1, borderColor: '#FF2D2D' },
-    ]}
-  >
-    <Text style={styles.actionText}>{title}</Text>
-  </TouchableOpacity>
-);
+ const Dropdown = ({ data,onclose }) => (
+     <View style={styles.dropdown}>
+      {data.map(item => (
+        <TouchableOpacity
+          key={item}
+          style={styles.dropdownItem}
+          onPress={onclose}
+        >
+          <Text style={styles.dropdownText}>{item}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>)
+
 const styles = StyleSheet.create({
-  container: {
+  bg: {
     flex: 1,
-    backgroundColor: '#000',
-    padding: 16,
   },
-
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  container: {
+    paddingHorizontal: wp('3%'),
+    paddingBottom: hp('14%'),
   },
-
-  title: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: '700',
-  },
-
-  badge: {
+ badgen: {
     position: 'absolute',
     right: -2,
     top: -2,
@@ -226,117 +247,262 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#FF2D2D',
   },
-
-  gameCard: {
-    width: 200,
-    borderRadius: 18,
-    padding: 16,
-    marginRight: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: hp('2%'),
+    marginBottom: hp('3%'),
+  },
+  title: {
+    fontSize: wp('6%'),
+    fontWeight: '700',
+    color: '#fff',
   },
 
+  cardRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  gameCard: {
+    width: wp('30%'),
+    padding: wp('4%'),
+    borderRadius: wp('4%'),
+    overflow: 'hidden',
+  },
   gameTitle: {
+    fontSize: wp('4.3%'),
     color: '#fff',
-    fontSize: 18,
     fontWeight: '700',
   },
-
   gameDesc: {
-    color: '#999',
-    marginVertical: 6,
+    fontSize: wp('2.8%'),
+    color: '#b5b5b5',
+    marginVertical: hp('1%'),
   },
-
-  gameInfo: {
-    color: '#ccc',
-    fontSize: 13,
+  gameMeta: {
+    fontSize: wp('3.4%'),
+    color: '#fff',
+    marginTop: hp('1%'),
+  },
+  gameMin: {
+    fontSize: wp('3.1%'),
+    color: '#FFF',
+    marginTop: hp('0.2%'),
   },
 
   actionRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 20,
+    marginVertical: hp('3%'),
+    gap:5,
+    alignItems:'center'
   },
+  // actionBtn: {
+  //   width: wp('23%'),
+  //   height: hp('6.5%'),
+  //   //borderRadius: wp('8%'),
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  // outlinedBtn: {
+  //   borderWidth: wp('0.3%'),
+  //   borderColor: '#fff',
+  // },
+  // filledBtn: {
+  //   backgroundColor: '#ff3b3b',
+  // },
+  // outlinedText: {
+  //   fontSize: wp('4%'),
+  //   color: '#fff',
+  // },
+  // filledText: {
+  //   fontSize: wp('4%'),
+  //   color: '#fff',
+  //   fontWeight: '600',
+  // },
 
-  actionBtn: {
+ searchBar: {
     flex: 1,
-    paddingVertical: 14,
-    borderRadius: 30,
-    alignItems: 'center',
-    marginHorizontal: 6,
-  },
-
-  actionText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-
-  searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
-    borderRadius: 30,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    justifyContent: 'space-between',
+    height: 52,
+    alignSelf:'center',
+    marginHorizontal: 6,
+    borderRadius: 32,
+    paddingHorizontal: 10,
+    marginBottom: 20,
   },
 
   searchInput: {
-    color: '#fff',
-    marginLeft: 10,
     flex: 1,
+    color: '#fff',
+    marginLeft: 8,
+    fontSize: 14,
   },
 
-  listHeader: {
+  divider: {
+    width: 1,
+    height: 52,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    marginHorizontal: 12,
+  },
+
+  filter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  filterBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      //backgroundColor: '#1c1c1e',
+      //borderRadius: 30,
+      paddingHorizontal: 14,
+      paddingVertical: 10,
+      marginLeft: 6,
+    },
+
+    filterText: {
+      color: '#fff',
+      fontSize: 14,
+      // marginRight: 4,
+    },
+
+  sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 16,
+    marginTop:hp('3%'),
+    marginBottom: hp('2%'),
+    marginHorizontal:wp('1%')
   },
-
   sectionTitle: {
+    fontSize: wp('5%'),
     color: '#fff',
-    fontSize: 22,
     fontWeight: '700',
-  },
 
+  },
   viewAll: {
+    fontSize: wp('3.8%'),
     color: '#fff',
     textDecorationLine: 'underline',
   },
-
-  guioCard: {
-    backgroundColor: '#0F0F0F',
-    borderRadius: 18,
-    padding: 16,
-    marginBottom: 14,
+  guiCard: {
+    backgroundColor: '#221c1b',
+    borderRadius: wp('4%'),
+    padding: wp('4%'),
+    marginBottom: hp('2%'),
   },
-
   status: {
-    marginBottom: 6,
+    fontSize: wp('3.5%'),
+    marginBottom: hp('1%'),
   },
-
-  guioTitle: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
+  guiRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-
-  guioSub: {
-    color: '#aaa',
-    marginTop: 4,
-  },
-
-  joinBtn: {
-    backgroundColor: '#FF2D2D',
-    alignSelf: 'flex-end',
-    paddingHorizontal: 22,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginTop: 10,
-  },
-
-  joinText: {
+  guiName: {
+    fontSize: wp('4.2%'),
     color: '#fff',
     fontWeight: '600',
   },
+  guiGame: {
+    fontSize: wp('3.8%'),
+    color: '#b5b5b5',
+  },
+  guiMeta: {
+    fontSize: wp('3.5%'),
+    color: '#b5b5b5',
+    marginTop: hp('0.5%'),
+  },
+joinBtn: {
+    backgroundColor: '#FA2630',
+    height: hp('5.5%'),
+    paddingHorizontal: wp('8%'),
+    borderRadius: wp('10%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: wp('3%'),
+  },
+  joinText: {
+    fontSize: wp('4%'),
+    color: '#fff',
+    fontWeight: '600',
+  },
+  actionBtn: {
+    width: wp('47%'),
+    height: hp('6.2%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    //
+  },
+  outlinedBtn: {
+    borderWidth: wp('0.3%'),
+    borderColor: '#fff',
+  },
+  filledBtn: {
+    backgroundColor: '#ff3b3b',
+    borderRadius: wp('8%'),
+    flex:1,
+     height: hp('6.0%'),
+    marginTop:2
+  },
+  outlinedText: {
+    fontSize: wp('4%'),
+    color: '#fff',
+  },
+  filledText: {
+    fontSize: wp('4%'),
+    color: '#fff',
+    fontWeight: '600',
+  },
+// dropdown: {
+//       position: 'absolute',
+//       top: 360,
+//       right: 20,
+//       backgroundColor: '#1c1c1e',
+//       borderRadius: 14,
+//       width: 140,
+//       paddingVertical: 6,
+//       zIndex: 10,
+//       elevation: 5,
+//     },
+ dropdownWrapper: {
+  position: 'absolute', // ✅ correct
+  right: wp('2%'),
+  top: hp('40%'),       // adjust based on SearchFilterBar position
+  zIndex: 999,
+  elevation: 20,
+},
+
+// dropdown: {
+//   position: 'absolute',
+//   bottom: hp('-10.5%'), // 👈 opens ABOVE button (match button height)
+//   width: '100%',
+//   backgroundColor: '#1F1F1F',
+//   borderRadius: wp('3%'),
+//   overflow: 'hidden',
+//   zIndex: 999,
+// },
+      dropdown: {
+        width: 190,
+       
+  backgroundColor: '#1F1F1F',
+  borderRadius: wp('3%'),
+  marginTop: hp('1%'),
+  overflow: 'hidden',
+},
+
+dropdownItem: {
+  paddingVertical: hp('1.6%'),
+  paddingHorizontal: wp('4%'),
+  borderBottomWidth: wp('0.2%'),
+  borderBottomColor: '#333',
+},
+
+dropdownText: {
+  fontSize: wp('3.8%'),
+  color: '#fff',
+},
 });
