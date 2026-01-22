@@ -8,7 +8,8 @@ import {
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import ActionButtons from "./Rowbuttons";
 
-const LogoutModal = ({ visible, onCancel, title, onConfirm }) => {
+const LogoutModal = ({ visible, onCancel, title, onConfirm, leftLabel,
+  rightLabel , }) => {
   return (
     <Modal
       transparent
@@ -21,9 +22,9 @@ const LogoutModal = ({ visible, onCancel, title, onConfirm }) => {
           <Text style={styles.title}>{title}</Text>
 
           <ActionButtons
-            leftLabel="No"
+            leftLabel={leftLabel??"No"}
             onLeftPress={onCancel}
-            rightLabel="Yes"
+            rightLabel={rightLabel??"Yes"}
             onRightPress={onConfirm}
             containerStyle={{ width: "100%", marginTop: hp("2%") }}
             leftButtonStyle={{ height: hp("6%"), borderRadius: wp("6%") }}

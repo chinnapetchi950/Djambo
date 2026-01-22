@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
-    paddingHorizontal: wp('5%'),
+    paddingHorizontal: wp('3%'),
     paddingBottom: hp('4%'),
   },
 
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
 
   inputCard: {
     height: hp('6.5%'),
-    backgroundColor: '#221C1B',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     borderRadius: wp('3.5%'),
     paddingHorizontal: wp('4%'),
     flexDirection: 'row',
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   },
 
   radioCard: {
-    backgroundColor: '#2A2A2A',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     borderRadius: wp('3.5%'),
     padding: wp('4%'),
     marginTop: hp('1.5%'),

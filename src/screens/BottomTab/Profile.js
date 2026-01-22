@@ -16,7 +16,7 @@ import ScreenWrapper from "../../components/ScreenWrapper";
 import { Typography } from "../../theme/typography";
 import LogoutModal from "../../components/LogoutModal";
 import { CommonActions } from '@react-navigation/native';
-
+import ProfileImagePickerModal from "../../components/ProfileImagePickerModal";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -63,6 +63,8 @@ const MenuItem = ({
 
 const Profile = ({navigation}) => {
   const [showLogout, setShowLogout] = useState(false);
+   const [modalVisible, setModalVisible] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
 const handleLogout=()=>{
   setShowLogout(false),
  navigation.dispatch(
@@ -92,15 +94,32 @@ const handleLogout=()=>{
         {/* PROFILE HEADER */}
         <View style={styles.header}>
           <View style={styles.avatarWrapper}>
-            <Image
-              source={{ uri: "https://i.pravatar.cc/300" }}
-              style={styles.avatar}
-            />
-            <TouchableOpacity style={styles.editIcon}>
-              <Image   source={require('../../../assets/images/profile_edit.png')}></Image>
-              {/* <Ionicons name="camera" size={16} color="#fff" /> */}
-            </TouchableOpacity>
-          </View>
+  <Image
+    source={
+      profileImage
+        ? profileImage.uri
+          ? { uri: profileImage.uri }
+          : profileImage // avatar image require(...)
+        : { uri: 'https://i.pravatar.cc/300' }
+    }
+    style={styles.avatar}
+  />
+
+  <TouchableOpacity
+    style={styles.editIcon}
+    activeOpacity={0.8}
+    onPress={() => setModalVisible(true)}
+  >
+    <Image
+      source={require('../../../assets/images/profile_edit.png')}
+      style={styles.editImage}
+    />
+  </TouchableOpacity>
+
+  {/* Profile Image Picker Modal */}
+ 
+</View>
+
 
           <Text style={styles.username}>Game Master_x</Text>
 
@@ -158,7 +177,15 @@ const handleLogout=()=>{
 
         <Text style={styles.version}>Version 1.2.3</Text>
       </ScrollView>
-      
+      <ProfileImagePickerModal
+  visible={modalVisible}
+  onClose={() => setModalVisible(false)}
+  onSelect={(image) => {
+    setProfileImage(image);
+   // uploadProfileImage(image); // 🔥 API call here
+  }}
+/>
+
 <LogoutModal
   visible={showLogout}
   onCancel={() => setShowLogout(false)}

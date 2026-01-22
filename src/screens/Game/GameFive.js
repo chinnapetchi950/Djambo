@@ -126,7 +126,7 @@ const Player = ({ name, isGameStarted }) => {
 
 /* ================= MAIN SCREEN ================= */
 
-export default function FiveGameScreen() {
+export default function FiveGameScreen({navigation}) {
   // const [showChat, setShowChat] = useState(false);
   const [rulesVisible, setRulesVisible] = useState(false);
   const [winVisible, setWinVisible] = useState(false);
@@ -135,9 +135,12 @@ export default function FiveGameScreen() {
   const [playCount, setPlayCount] = useState(0);
 const [showChat, setShowChat] = useState(false);
 
-  const handleLogout = () => {
+  const handleleave = () => {
     setShowLeave(false);
-  };
+    navigation.navigate("Main", {
+  screen: "Game",
+});
+  }
   const handlePlayPress = () => {
     if (playCount === 0) {
       // First click → Start game
@@ -258,24 +261,16 @@ const [showChat, setShowChat] = useState(false);
     style={styles.foldBtnWrapper}
   >
     <ImageBackground
-      source={require('../../../assets/images/fold_bg.png')}
+      source={require('../../../assets/images/secondarybtnbg.png')}
       style={styles.foldBtn}
       resizeMode="stretch"
     >
-      {/* <Text style={styles.outlinedText}>Fold</Text> */}
+      <Text style={styles.outlinedText}>Fold</Text>
     </ImageBackground>
   </TouchableOpacity>
 
 
-    <TouchableOpacity
-      activeOpacity={0.8}
-      style={styles.sideBetBtn}
-      //onPress={handleSideBet}
-    >
-      
-        <Text style={styles.sideBetText}>Side Bet</Text>
-      {/* </ImageBackground> */}
-    </TouchableOpacity>
+  
   {/* )} */}
 
   {/* Play Button */}
@@ -417,7 +412,9 @@ const [showChat, setShowChat] = useState(false);
                 </View>
                 <View style={styles.winActionRow}>
                 
-                  <TouchableOpacity  style={styles.backBtn}>
+                  <TouchableOpacity  onPress={()=>{ navigation.navigate("Main", {
+  screen: "Game",
+});}}  style={styles.backBtn}>
                    
                     <Text style={styles.backText}>Back to Games</Text>
                   </TouchableOpacity>
@@ -433,7 +430,7 @@ const [showChat, setShowChat] = useState(false);
          <LogoutModal
           visible={showLeave}
           onCancel={() => setShowLeave(false)}
-          onConfirm={handleLogout}
+          onConfirm={handleleave}
           title={
             <>
               Are you sure that you want {'\n'}
@@ -606,7 +603,7 @@ const styles = StyleSheet.create({
     marginBottom: hp('3%'),
   },
   foldBtnWrapper: {
-    width: wp('28%'),
+    width: wp('38%'),
     height: hp('6.5%'),
     borderRadius: hp('4%'),
   },
@@ -628,7 +625,7 @@ const styles = StyleSheet.create({
 
   /* ================= Play Button ================= */
   playBtn: {
-    width: wp('25%'),
+    width: wp('38%'),
     height: hp('6.0%'),
     backgroundColor: '#FA2630',
     borderRadius: hp('4%'),

@@ -76,8 +76,12 @@ export default function VerifyOTP({ navigation, route }) {
 
     setTimeout(() => {
       setSuccessVisible(false);
-      navigation.replace('Main');
-    }, 2000);
+navigation.replace('Main', {
+  screen: 'Home',
+  params: {
+    showCreatePin: true,
+  },
+});    }, 2000);
   };
 
   const formatTime = s => `01:${s < 10 ? `0${s}` : s}`;
@@ -237,7 +241,7 @@ const styles = StyleSheet.create({
     borderColor: '#444',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.04)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
   },
 
   otpText: {

@@ -139,7 +139,7 @@ export default function CreateAccount({ navigation }) {
         {/* BUTTON */}
         <AppButton
           title="Continue"
-          style={{ marginTop: 20 }}
+          btnstyle={{ marginTop: hp('3%')}}
           onPress={() => navigation.navigate('VerifyOTP')}
         />
 
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   selectBox: {
     height: hp('6.8%'),
     borderRadius: wp('4%'),
-    backgroundColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

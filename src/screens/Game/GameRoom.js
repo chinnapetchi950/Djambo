@@ -112,7 +112,7 @@ const [isLeave,setisLeave]=useState(false)
                   styles.primaryBtn,
                   { backgroundColor: isReady ? '#FF3B3B' : '#444',marginHorizontal:wp('2%') },
                 ]}
-                onPress={() =>navigation.navigate('FiveGameScreen')}
+                onPress={() =>{gameType==='five'?navigation.navigate('FiveGameScreen'):gameType==='tia'?navigation.navigate('GameTiaDirect'):navigation.navigate('GameTiaAgaram')}}
               >
                 <Text style={styles.primaryBtnText}>Ready to Play</Text>
               </TouchableOpacity>

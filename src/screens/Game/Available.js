@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
 //   },
 
   guiCard: {
-    backgroundColor: '#221c1b',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     borderRadius: wp('4%'),
     padding: wp('4%'),
     marginBottom: hp('2%'),

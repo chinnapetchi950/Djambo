@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
   /* CONTAINER */
   container: {
     flex: 1,
-    paddingHorizontal: wp('5%'),
+    paddingHorizontal: wp('3%'),
     paddingTop: hp('2%'),
   },
 
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   /* SWITCH */
   switchContainer: {
     flexDirection: 'row',
-    backgroundColor: '#1b1b1b',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     borderRadius: wp('8%'),
     marginBottom: hp('4%'),
     marginTop: hp('2%'),
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
 
   switchBtn: {
     flex: 1,
-    paddingVertical: hp('1.6%'),
+    paddingVertical: hp('2%'),
     alignItems: 'center',
     borderRadius: wp('8%'),
   },
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   /* SMALL SWITCH */
   smallSwitch: {
     flexDirection: 'row',
-    backgroundColor: '#1b1b1b',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     borderRadius: wp('7%'),
     marginBottom: hp('2%'),
     width: wp('60%'),
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
 
   smallBtn: {
     flex: 1,
-    paddingVertical: hp('1.4%'),
+    paddingVertical: hp('1.8%'),
     alignItems: 'center',
     borderRadius: wp('7%'),
   },

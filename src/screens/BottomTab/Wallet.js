@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   View,
@@ -5,79 +6,126 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
+  ImageBackground,
+  Platform,
+  Image
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import LinearGradient from "react-native-linear-gradient";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { BlurView } from "@react-native-community/blur";
 import ScreenWrapper from "../../components/ScreenWrapper";
 
-export default function Wallet({ navigation }) {
+/* ---------- GLASS CARD ---------- */
+const GlassCard = ({ children, style }) => {
+  if (Platform.OS === "ios") {
+    return (
+      <BlurView blurType="dark" blurAmount={15} style={[styles.glass, style]}>
+        {children}
+      </BlurView>
+    );
+  }
+  return <View style={[styles.glass, styles.androidGlass, style]}>{children}</View>;
+};
+
+export default function Wallet({navigation}) {
   return (
     <ScreenWrapper>
-      
-      {/* <ScrollView contentContainerStyle={styles.container}>
-        {/* HEADER */}
-        {/* <View style={styles.header}>
-          <Text style={styles.headerTitle}>Wallet Details</Text>
-          <TouchableOpacity>
-            <Ionicons name="notifications" size={22} color="#FFD400" />
-            <View style={styles.badge} />
-          </TouchableOpacity>
-        </View> */}
+      <ImageBackground
+        source={require("../../../assets/images/profile_bg.png")}
+        style={styles.bg}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
 
-        {/* BALANCE CARD */}
-        {/* <View style={styles.balanceCard}>
-          <BalanceItem value="€127.50" label="EUR" />
-          <Divider />
-          <BalanceItem value="$85.20" label="USD" />
-          <Divider />
-          <BalanceItem value="78,450" label="FCFA" />
-        </View> */}
+          {/* HEADER */}
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Wallet Details</Text>
+            <View>
+              <Ionicons name="notifications" size={wp("6%")} color="#FFD400" />
+              <View style={styles.dot} />
+            </View>
+          </View>
+ <ImageBackground
+            source={require("../../../assets/images/balance_card_bg.png")}
+            style={styles.walletCard}
+            imageStyle={styles.walletBg}
+          >
+          {/* BALANCE CARD */}
+          <LinearGradient
+            colors={["#FF5A5F", "#FF2D00"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.balanceCard}
+          >
+            <BalanceItem value="€127.50" label="EUR" />
+            <Divider />
+            <BalanceItem value="$85.20" label="USD" />
+            <Divider />
+            <BalanceItem value="78,450" label="FCFA" />
+          </LinearGradient>
 
-        {/* <Text style={styles.totalText}>
-          Total (EUR equivalent): <Text style={styles.totalValue}>€247.83</Text>
-        </Text> */}
+                     <Text
+              style={[
+                styles.totalValue,
+                { color: "#00AD09", textAlign: "center", marginTop: hp("0.6%") },
+              ]}
+            >
+              Safe Balance
+            </Text>
 
-        {/* ACTION BUTTONS */}
-        {/* <View style={styles.actionRow}>
-          <ActionButton icon="download-outline" label="Deposit" />
-          <ActionButton icon="arrow-up-outline" label="Withdrawal" />
-          <ActionButton icon="swap-horizontal-outline" label="Convert Currency" />
-        </View> */}
+            <Text style={styles.totalText}>
+              Total (EUR equivalent):{" "}
+              <Text style={styles.totalValue}>€247.83</Text>
+            </Text>
+</ImageBackground>
+          {/* ACTION BUTTONS */}
+          <View style={styles.actions}>
+            <ActionBtn onPress={()=>navigation.navigate('DepositScreen',{name:'deposit'})} icon= {require('../../../assets/images/deposit.png')}label="Deposit" />
+            <ActionBtn onPress={()=>navigation.navigate('DepositScreen',{name:'withdraw'})}icon={require('../../../assets/images/withdraw.png')}label="Withdrawal" />
+            <ActionBtn onPress={()=>navigation.navigate('CurrencyConversionScreen')} icon={require('../../../assets/images/currency.png')} label="Convert Currency" />
+          </View>
 
-        {/* ACTIVE GAME BALANCE */}
-        {/* <Text style={styles.sectionTitle}>Active Game Balance</Text>
+          {/* ACTIVE GAME BALANCE */}
+          <Text style={styles.section}>Active Game Balance</Text>
 
-        <View style={styles.gameBalanceCard}>
-          <InfoRow label="Visible Balance" value="10 FCFA" />
-          <InfoRow label="Required Balance" value="150 FCFA" />
-          <InfoRow
-            label="Status"
-            value="Low Balance"
-            valueStyle={{ color: "#FFD400" }}
-          />
+          <GlassCard style={styles.gameCard}>
+            <Row label="Visible Balance" value="10 FCFA" />
+            <Row label="Required Balance" value="150 FCFA" />
 
-          <TouchableOpacity style={styles.refillBtn}>
-            <Text style={styles.refillText}>Refill Balance</Text>
-          </TouchableOpacity>
-        </View> */}
+            <View style={styles.statusRow}>
+              <Text style={styles.label}>Status</Text>
+              <View style={styles.status}>
+                <View style={styles.yellowDot} />
+                <Text style={styles.low}>Low Balance</Text>
+              </View>
+            </View>
 
-        {/* TRANSACTIONS */}
-        {/* <View style={styles.transactionHeader}>
-          <Text style={styles.sectionTitle}>Transactions</Text>
-          <TouchableOpacity>
+            <TouchableOpacity style={styles.refillBtn}>
+              <Text style={styles.refillText}>Refill Balance</Text>
+            </TouchableOpacity>
+          </GlassCard>
+
+          {/* TRANSACTIONS */}
+          <View style={styles.txHeader}>
+            <Text style={styles.section}>Transactions</Text>
             <Text style={styles.viewAll}>View All</Text>
-          </TouchableOpacity>
-        </View>
+          </View>
 
-        <TransactionItem type="Deposit" amount="+50.00 FCFA" />
-        <TransactionItem type="Win" amount="+10.00 FCFA" />
-        <TransactionItem type="Win" amount="+10.00 FCFA" />
-      </ScrollView> */} 
+          <Transaction type="Deposit" amount="50.00 FCFA" />
+          <Transaction type="Win" amount="10.00 FCFA" />
+          <Transaction type="Win" amount="10.00 FCFA" />
+
+          <View style={{ height: hp("12%") }} />
+        </ScrollView>
+      </ImageBackground>
     </ScreenWrapper>
   );
 }
 
-/* COMPONENTS */
+/* ---------- COMPONENTS ---------- */
 
 const BalanceItem = ({ value, label }) => (
   <View style={styles.balanceItem}>
@@ -86,207 +134,205 @@ const BalanceItem = ({ value, label }) => (
   </View>
 );
 
-const Divider = () => <View style={styles.verticalDivider} />;
+const Divider = () => <View style={styles.divider} />;
 
-const ActionButton = ({ icon, label }) => (
-  <TouchableOpacity style={styles.actionBtn}>
-    <Ionicons name={icon} size={22} color="#fff" />
-    <Text style={styles.actionText}>{label}</Text>
-  </TouchableOpacity>
+const ActionBtn = ({ icon, label,onPress }) => (
+  <GlassCard style={styles.actionBtn}>
+    <TouchableOpacity onPress={onPress}>
+<Image
+      source={icon}
+      style={styles.actionIcon}
+      resizeMode="contain"
+    />
+    <Text style={[styles.actionText,{marginRight:label==='Deposit'?wp('8%'):label==='Withdrawal'?wp('1%'):0}]}>{label}</Text>
+    </TouchableOpacity>
+    
+  </GlassCard>
 );
 
-const InfoRow = ({ label, value, valueStyle }) => (
-  <View style={styles.infoRow}>
-    <Text style={styles.infoLabel}>{label}</Text>
-    <Text style={[styles.infoValue, valueStyle]}>{value}</Text>
+
+const Row = ({ label, value }) => (
+  <View style={styles.row}>
+    <Text style={styles.label}>{label}</Text>
+    <Text style={styles.value}>{value}</Text>
   </View>
 );
 
-const TransactionItem = ({ type, amount }) => (
-  <View style={styles.transactionCard}>
+const Transaction = ({ type, amount }) => (
+  <GlassCard style={styles.txCard}>
     <View>
-      <Text style={styles.transactionType}>{type}</Text>
-      <Text style={styles.transactionAmount}>{amount}</Text>
+      <Text style={styles.txType}>{type}</Text>
+      <Text style={styles.txAmount}>{amount}</Text>
     </View>
     <View>
-      <Text style={styles.transactionDate}>02 Dec 2025</Text>
-      <Text style={styles.transactionTime}>11:30 AM</Text>
+      <Text style={styles.txDate}>02 Dec 2025</Text>
+      <Text style={styles.txTime}>11:30 AM</Text>
     </View>
-  </View>
+  </GlassCard>
 );
 
-/* STYLES */
+/* ---------- STYLES ---------- */
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
+  bg: { flex: 1, paddingHorizontal: wp("2.5%") },
 
   header: {
+    marginTop: hp("2%"),
+    marginBottom:hp('3.4%'),
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 20,
+    alignItems: "center",
   },
-
   headerTitle: {
     color: "#fff",
-    fontSize: 22,
+    fontSize: wp("6%"),
     fontWeight: "700",
   },
-
-  badge: {
-    width: 8,
-    height: 8,
+  dot: {
+    width: wp("2%"),
+    height: wp("2%"),
     backgroundColor: "red",
-    borderRadius: 4,
+    borderRadius: 10,
     position: "absolute",
-    top: 0,
     right: 0,
+    top: 0,
   },
 
-  balanceCard: {
-    backgroundColor: "#FF3B3B",
-    borderRadius: 18,
+   balanceCard: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 18,
-    paddingHorizontal: 12,
-  },
-
-  balanceItem: {
     alignItems: "center",
-    flex: 1,
+    justifyContent: "space-between",
+    borderRadius: wp("6%"),
+    paddingVertical: hp("2.5%"),
+    paddingHorizontal: wp("4%"),
   },
-
-  balanceValue: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "700",
-  },
-
-  balanceLabel: {
-    color: "#fff",
-    marginTop: 4,
-    opacity: 0.9,
-  },
-
-  verticalDivider: {
+  balanceItem: { flex: 1, alignItems: "center" },
+  balanceValue: { color: "#fff", fontSize: wp("5%"), fontWeight: "700" },
+  balanceLabel: { color: "#fff", opacity: 0.9, marginTop: 4 },
+  divider: {
     width: 1,
+    height: "70%",
     backgroundColor: "rgba(255,255,255,0.4)",
   },
 
-  totalText: {
-    color: "#aaa",
+  safe: { color: "#00AD09", textAlign: "center", marginTop: hp("1%") },
+  total: { color: "#fff", textAlign: "center", marginBottom: hp("3%") },
+  bold: { fontWeight: "700" },
+
+  actions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: hp("3%"),
+  },
+actionBtn: {
+  width: wp("30%"),
+  height: hp("11%"),
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+actionIcon: {
+  width: wp("6%"),
+  height: wp("6%"),
+  alignSelf:'flex-start'
+},
+
+actionText: {
+  color: "#fff",
+  marginTop: hp("1.2%"),
+  fontSize: wp("3.8%"),
+  textAlign: 'left',
+  fontWeight:'500'
+},
+
+
+  section: {
+    color: "#fff",
+    fontSize: wp("6%"),
+    fontWeight: "700",
+    marginBottom: hp("2%"),
+  },
+
+  glass: {
+    borderRadius: wp("5%"),
+    padding: wp("4%"),
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.12)",
+  },
+  androidGlass: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+  },
+
+  gameCard: { marginBottom: hp("4%") },
+
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: hp("1%"),
+  },
+  label: { color: "#FFF",fontWeight:'500' },
+  value: { color: "#fff", fontWeight: "600" },
+
+  statusRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: hp("2%"),
+  },
+  status: { flexDirection: "row", alignItems: "center" },
+  yellowDot: {
+    width: 8,
+    height: 8,
+    backgroundColor: "#FFD400",
+    borderRadius: 10,
+    marginRight: 8,
+  },
+  low: { color: "#FFD400", fontWeight: "700" },
+
+  refillBtn: {
+    backgroundColor: "#fff",
+    paddingVertical: hp("1.5%"),
+    borderRadius: wp("4%"),
+  },
+  refillText: {
     textAlign: "center",
-    marginVertical: 12,
+    fontWeight: "700",
+    fontSize: wp("4%"),
+  },
+
+  txHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal:wp('1%')
+    // marginBottom: hp("%"),
+  },
+  viewAll: { color: "#fff", textDecorationLine: "underline" },
+
+  txCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: hp("1.2%"),
+  },
+  txType: { color: "#fff", fontWeight: "700",fontSize:wp('3.8%') },
+  txAmount: { color: "#00FF57", marginTop: 4 },
+  txDate: { color: "#fff", textAlign: "right" },
+  txTime: { color: "#fff", textAlign: "right" },
+    walletCard: {
+    borderRadius: wp("6%"),
+    marginBottom: hp("3%"),
+    elevation: 6,
+  },
+  walletBg: { borderRadius: wp("6%") },
+    totalText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: wp("4.2%"),
+    marginVertical: hp("1%"),
+    marginBottom: hp("3%"),
   },
 
   totalValue: {
     color: "#fff",
+    fontSize: wp("4.2%"),
     fontWeight: "700",
-  },
-
-  actionRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 20,
-  },
-
-  actionBtn: {
-    backgroundColor: "#222",
-    borderRadius: 16,
-    padding: 14,
-    alignItems: "center",
-    flex: 1,
-    marginHorizontal: 4,
-  },
-
-  actionText: {
-    color: "#fff",
-    marginTop: 6,
-    fontSize: 13,
-  },
-
-  sectionTitle: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "700",
-    marginTop: 10,
-  },
-
-  gameBalanceCard: {
-    backgroundColor: "#1c1c1c",
-    borderRadius: 18,
-    padding: 16,
-    marginTop: 12,
-  },
-
-  infoRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-
-  infoLabel: {
-    color: "#aaa",
-  },
-
-  infoValue: {
-    color: "#fff",
-    fontWeight: "600",
-  },
-
-  refillBtn: {
-    backgroundColor: "#fff",
-    borderRadius: 14,
-    paddingVertical: 14,
-    marginTop: 14,
-  },
-
-  refillText: {
-    textAlign: "center",
-    fontWeight: "700",
-  },
-
-  transactionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 24,
-    marginBottom: 10,
-  },
-
-  viewAll: {
-    color: "#fff",
-    textDecorationLine: "underline",
-  },
-
-  transactionCard: {
-    backgroundColor: "#222",
-    borderRadius: 14,
-    padding: 16,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-
-  transactionType: {
-    color: "#fff",
-    fontWeight: "700",
-  },
-
-  transactionAmount: {
-    color: "#00FF57",
-    marginTop: 4,
-  },
-
-  transactionDate: {
-    color: "#aaa",
-    textAlign: "right",
-  },
-
-  transactionTime: {
-    color: "#aaa",
-    textAlign: "right",
-    marginTop: 2,
   },
 });

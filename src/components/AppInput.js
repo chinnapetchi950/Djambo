@@ -1,71 +1,13 @@
-
-// import React, { useState } from 'react';
-// import {
-//   View,
-//   TextInput,
-//   StyleSheet,
-//   TouchableOpacity,
-// } from 'react-native';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-
-// export default function AppInput({
-//   secureTextEntry,
-//   style,
-//   ...props
-// }) {
-//   const [hide, setHide] = useState(secureTextEntry);
-
-//   return (
-//     <View style={styles.container}>
-//       <TextInput
-//         {...props}
-//         style={[styles.input, style]}
-//         placeholderTextColor="#777"
-//         secureTextEntry={hide}
-//       />
-
-//       {secureTextEntry && (
-//         <TouchableOpacity
-//           style={styles.eye}
-//           onPress={() => setHide(!hide)}
-//         >
-//           <Ionicons
-//             name={hide ? 'eye-off-outline' : 'eye-outline'}
-//             size={20}
-//             color="#aaa"
-//           />
-//         </TouchableOpacity>
-//       )}
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     position: 'relative',
-//     marginBottom: 6,
-//   },
-
-//   input: {
-//     height: 52,
-//     borderRadius: 14,
-//     backgroundColor: 'rgba(255,255,255,0.08)',
-//     paddingHorizontal: 16,
-//     paddingRight: 44, // space for eye icon
-//     color: '#fff',
-//     fontSize: 16,
-//   },
-
-//   eye: {
-//     position: 'absolute',
-//     right: 14,
-//     top: 16,
-//   },
-// });
-
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { BlurView } from '@react-native-community/blur';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -78,45 +20,61 @@ export default function AppInput({
 }) {
   const [hide, setHide] = useState(secureTextEntry);
 
+  const Wrapper = Platform.OS === 'ios' ? BlurView : View;
+
   return (
     <View style={styles.container}>
-      <TextInput
-        {...props}
-        style={[styles.input, style]}
-        placeholderTextColor="#aaa"
-        secureTextEntry={hide}
-      />
+      <Wrapper
+        {...(Platform.OS === 'ios'
+          ? { blurType: 'dark', blurAmount: 16 }
+          : {})}
+        style={styles.glass}
+      >
+        <TextInput
+          {...props}
+          style={[styles.input, style]}
+          placeholderTextColor="rgba(255,255,255,0.6)"
+          secureTextEntry={hide}
+        />
 
-      {secureTextEntry && (
-        <TouchableOpacity
-          style={styles.eye}
-          onPress={() => setHide(!hide)}
-        >
-          <Ionicons
-            name={hide ? 'eye-off-outline' : 'eye-outline'}
-            size={wp('5%')} // responsive icon size
-            color="#aaa"
-          />
-        </TouchableOpacity>
-      )}
+        {secureTextEntry && (
+          <TouchableOpacity
+            style={styles.eye}
+            onPress={() => setHide(!hide)}
+            activeOpacity={0.8}
+          >
+            <Ionicons
+              name={hide ? 'eye-off-outline' : 'eye-outline'}
+              size={wp('5%')}
+              color="rgba(255,255,255,0.7)"
+            />
+          </TouchableOpacity>
+        )}
+      </Wrapper>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
     marginBottom: hp('1.5%'),
   },
 
+  glass: {
+    height: hp('6.5%'),
+    borderRadius: wp('3%'),
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    justifyContent: 'center',
+  },
+
   input: {
-    height: hp('6.5%'), // responsive height
-    borderRadius: wp('3%'), // responsive border radius
-    backgroundColor: 'rgba(255,255,255,0.08)',
+    height: '100%',
     paddingHorizontal: wp('4%'),
-    paddingRight: wp('12%'), // space for eye icon
+    paddingRight: wp('12%'),
     color: '#fff',
-    fontSize: wp('4%'), // responsive font size
+    fontSize: wp('4%'),
+    backgroundColor: 'transparent', // IMPORTANT
   },
 
   eye: {

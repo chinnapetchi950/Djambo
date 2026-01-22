@@ -66,7 +66,7 @@ const Player = ({ name, isGameStarted }) => {
       {/* 🂠 Cards ABOVE avatar for bottom */}
       {isBottom && (
         <View style={styles.cardsRow}>
-          {[...Array(2)].map((_, i) => (
+          {[...Array(3)].map((_, i) => (
             <Image key={i} source={CARD_BACK} style={styles.card} />
           ))}
         </View>
@@ -100,7 +100,7 @@ const Player = ({ name, isGameStarted }) => {
       {/* 🂠 Cards BELOW avatar for others */}
       {!isBottom && (
         <View style={styles.cardsRow}>
-          {[...Array(2)].map((_, i) => (
+          {[...Array(3)].map((_, i) => (
             <Image key={i} source={CARD_BACK} style={styles.card} />
           ))}
         </View>
@@ -127,10 +127,12 @@ const Player = ({ name, isGameStarted }) => {
 
 /* ================= MAIN SCREEN ================= */
 
-export default function GameTiaDirect({navigation}) {
+export default function GameTiaAgaram({navigation}) {
   // const [showChat, setShowChat] = useState(false);
   const [rulesVisible, setRulesVisible] = useState(false);
   const [winVisible, setWinVisible] = useState(false);
+    const [lossVisible, setlossVisible] = useState(false);
+
   const [isGameStarted, setIsGameStarted] = useState(false);
   const [showLeave, setShowLeave] = useState(false);
   const [playCount, setPlayCount] = useState(0);
@@ -147,13 +149,15 @@ const [showSideBetsuccess,setShowSideBetsuccess]=useState(false)
 });
   };
   const handlePlayPress = () => {
+
     if (playCount === 0) {
       // First click → Start game
       setIsGameStarted(true);
       setPlayCount(1);
     } else if (playCount === 1) {
       // Second click → Show win modal
-      setWinVisible(true);
+      setlossVisible(true)
+    //   setWinVisible(true);
     }
   };
   return (
@@ -168,7 +172,7 @@ const [showSideBetsuccess,setShowSideBetsuccess]=useState(false)
         >
           {/* ---------- HEADER ---------- */}
           <View style={styles.header}>
-            <Text style={styles.title}>TIA DIRECT</Text>
+            <Text style={styles.title}>TIA AGARAM</Text>
             <View style={styles.betPill}>
               <Text style={styles.betText}>Bet Amount : 120</Text>
             </View>
@@ -336,25 +340,19 @@ const [showSideBetsuccess,setShowSideBetsuccess]=useState(false)
         <Text style={styles.successTick}>✓</Text>
       </View> */}
 
-              <Text style={styles.rulesTitle}>TIA DIRECT — Game Rules</Text>
+              <Text style={styles.rulesTitle}>TIA AGARAM — Game Rules</Text>
 
               {[
                 '2–4 players per match',
-'Each player is dealt 2 cards',
-'Fast turn-based gameplay',
-'Each turn has a 5-second timer',
+'Each player is dealt 3 cards',
+'Turn-based with 5-second timer',
 'Play one card per turn',
-'Played card becomes visible & disabled',
-'All players see played cards',
-'Round is evaluated immediately',
-'Winner decided per round',
-'Bet amount is fixed',
-'Cards are shuffled server-side',
-'Auto action on timeout',
-'Side bets Available',
-'Bet increase Available',
-'Auto action on timeout',
-'Wallet updates instantly',
+'Played cards are visible to all',
+'Side bets allowed',
+'Bet increase requires all players’ approval',
+'Advanced win evaluation logic',
+'Commission deducted automatically',
+'Wallet updates instantly',               
               ].map((rule, i) => (
                 <Text key={i} style={styles.ruleLine}>
                   • {rule}
@@ -434,7 +432,7 @@ const [showSideBetsuccess,setShowSideBetsuccess]=useState(false)
   screen: "Game",
 });}} style={styles.backBtn}>
                    
-                    <Text style={styles.backText}>Back to Games</Text>
+                    <Text  style={styles.backText}>Back to Games</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={()=>setWinVisible(false)}style={styles.playAgainBtn}>
                     
@@ -443,6 +441,92 @@ const [showSideBetsuccess,setShowSideBetsuccess]=useState(false)
                 </View>
               </View>
             </FastImage>
+          </View>
+        </Modal>
+        <Modal transparent visible={lossVisible} animationType="fade">
+          <View style={styles.winOverlay}>
+            {/* GIF BACKGROUND */}
+            <View
+              //source={require('../../../assets/gifs/win_modal.gif')}
+              style={styles.gifBg_loss}
+              //="cover"
+            >
+              {/* White Card on top of GIF */}
+              {/* <View style={styles.winCard}>
+                <Text style={styles.winTitle}>You Won</Text>
+
+                <View style={styles.row}>
+                  <Text style={styles.label}>Amount Won</Text>
+                  <Text style={styles.positive}>+20 FCFA</Text>
+                </View>
+
+                <View style={styles.divider} />
+
+                <View style={styles.row}>
+                  <Text style={styles.label}>Commission</Text>
+                  <Text style={styles.negative}>-0.20 FCFA</Text>
+                </View>
+
+                <View style={styles.walletCard}>
+                  <Text style={styles.walletLabel}>Updated Wallet Balance</Text>
+                  <Text style={styles.walletValue}>130.30 FCFA</Text>
+                </View>
+
+                <View style={styles.btnRow}>
+                  <TouchableOpacity style={styles.outlineBtn}>
+                    <Text style={styles.outlineText}>Back to Games</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.primaryBtn}>
+                    <Text style={styles.primaryText}>Play Again</Text>
+                  </TouchableOpacity>
+                </View>
+              </View> */}
+              <View style={styles.winModalNew}>
+             
+                <Text style={styles.winTitleNew}>You Lost this Round</Text>
+<Text style={[styles.amountLabel,{fontSize:wp('3.8%'),textAlign:'center'}]}>Winner:Player 2</Text>
+                                                <View style={styles.divider} />
+                                                 <View style={styles.amountRow}>
+               
+                  <Text style={styles.amountLabel}>Bet Amount</Text>
+                  <Text style={styles.amountValue}>120 FCFA</Text>
+                </View>
+
+                <View style={styles.amountRow}>
+               
+                  <Text style={styles.amountLabel}>Amount Deducted</Text>
+                  <Text style={styles.amountValue}>120 FCFA</Text>
+                </View>
+                                {/* <View style={styles.divider} /> */}
+
+                <View style={styles.amountRow}>
+                  
+                  <Text style={styles.amountLabel}>Commission</Text>
+                  <Text style={[styles.amountNegative,{color:'#000'}]}>Applied as per rules</Text>
+                </View>
+                <View style={styles.walletCard}>
+                 
+                  <Text style={[styles.walletLabel,{fontSize: wp('3.8%')}]}>
+                     Your Updated Wallet Balance
+                  </Text>
+                  <Text style={styles.walletValue}>130.30 FCFA</Text>
+                </View>
+                <View style={styles.winActionRow}>
+                
+                  <TouchableOpacity  onPress={()=>{ navigation.navigate("Main", {
+  screen: "Game",
+});}} style={styles.backBtn}>
+                   
+                    <Text style={styles.backText}>Back to Games</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={()=>setlossVisible(false)}style={styles.playAgainBtn}>
+                    
+                    <Text style={styles.playAgainText}>Play Again</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
           </View>
         </Modal>
          <LogoutModal
@@ -497,7 +581,11 @@ const [showSideBetsuccess,setShowSideBetsuccess]=useState(false)
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-
+divider: {
+    height: 1,
+    backgroundColor: "#aaa",
+    marginVertical: hp("1%"),
+  },
   scrollContent: {
     minHeight: hp('100%'),
    //addingBottom: hp('1%')
@@ -895,6 +983,14 @@ sendIcon: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.65)', // dim outside
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+gifBg_loss: {
+    width: wp('92%'),
+    backgroundColor:'#FFF',
+    borderRadius: wp('6%'),
+    overflow: 'hidden', // 🔥 REQUIRED for rounded corners
+    paddingVertical: hp('3%'),
     alignItems: 'center',
   },
 

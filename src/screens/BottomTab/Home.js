@@ -32,17 +32,31 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
     { number: '2', title: 'Card Master', subtitle: 'TIA DIRECT', player:'2 players', min: '5,000', icon: require('../../../assets/images/game2.png') },
     { number: '3', title: 'Card Master', subtitle: 'TIA AGARAM', player:'2 players', min: '5,000', icon: require('../../../assets/images/game2.png') },
   ];
-  export default function Home({navigation}) {
+  export default function Home({navigation,route}) {
+    // const showCreatePin=route?.params?.create
+    // console.log(showCreatePin,"create");
+    
     const [showBet, setShowBet] = useState(false);
     const [showCurrency, setShowCurrency] = useState(false);
           const [search,setSearch]=useState('')
     
     //PIn
-  const [showPinModal, setShowPinModal] = useState(true);
+  const [showPinModal, setShowPinModal] = useState(false);
   const [pinStep, setPinStep] = useState('create'); // create | confirm | success
   const [pinValue, setPinValue] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
   const modalPinInputRef = useRef(null);
+  
+  useEffect(() => {
+  if (route?.params?.showCreatePin) {
+    setShowPinModal(true);
+console.log(route?.params?.showCreatePin);
+
+    // 🔥 Clear param so it never triggers again
+    navigation.setParams({ showCreatePin: false });
+  }
+}, [route?.params?.showCreatePin]);
+
   const handleModalPinChange = (text) => {
       if (!/^\d*$/.test(text)) return;
   //modalPinInputRef.current?.focus()
@@ -57,6 +71,10 @@ setPinStep('create');
         setConfirmPin(text);
         if (text.length === 4 && text === pinValue) {
           setPinStep('success');
+  // setTimeout(() => {
+  //   setShowPinModal(false);
+  // }, 1000);
+
         }
       }
     };
@@ -126,10 +144,12 @@ const openPinKeyboard = () => {
         <ActionButton
           icon={require('../../../assets/images/deposit.png')}
           label="Deposit   "
+          onPress={()=>navigation.navigate('DepositScreen',{name:'deposit'})}
         />
         <ActionButton
           icon={require('../../../assets/images/withdraw.png')}
           label="Withdrawal"
+          onPress={()=>navigation.navigate('DepositScreen',{name:'withdraw'})}
         />
       </View>
     </ImageBackground>
@@ -181,7 +201,7 @@ const openPinKeyboard = () => {
 </View>
          
 
-          <TouchableOpacity onPress={()=>navigation.navigate('GameLoader')} activeOpacity={0.85} style={styles.rejoinBtn}>
+          <TouchableOpacity  onPress={()=>navigation.navigate('GameLoader',{gametype:'tia'})} activeOpacity={0.85} style={styles.rejoinBtn}>
             <Text style={styles.rejoinText}>Rejoin Game</Text>
           </TouchableOpacity>
         </View>
@@ -486,7 +506,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#fff',
     borderRadius: wp('8%'),
-    backgroundColor:'#2b2929',
+    backgroundColor:'rgba(255,255,255,0.06)',
     paddingVertical: hp('1.2%'),
     paddingHorizontal: wp('6%'),
     marginRight: wp('3%'),
@@ -658,7 +678,7 @@ const styles = StyleSheet.create({
   },
 
   activityRow: {
-    backgroundColor: '#1C1C1E',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     marginHorizontal: wp('3%'),
     marginTop: hp('1.5%'),
     padding: wp('3.5%'),

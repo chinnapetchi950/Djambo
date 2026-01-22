@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#1c1c1c",
+    backgroundColor: "rgba(255,255,255,0.08)",
     paddingHorizontal: wp("4%"),
     paddingVertical: hp("1.5%"),
     borderRadius: wp("3%"),
